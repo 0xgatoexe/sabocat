@@ -25,9 +25,9 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); /* Centers the image */
-            max-width: 80%; /* Adjust size as needed */
-            z-index: 1; /* Ensures image is above the canvas */
+            transform: translate(-50%, -50%);
+            max-width: 80%;
+            z-index: 1;
         }
         .chart-container {
             width: 100%;
@@ -105,10 +105,18 @@
                 },
             });
             let fgSeries1 = [];
-            let fgDataPoints1 = [];
+            let fgDataPoints1 = [
+                { time: Math.floor(Date.now() / 1000), value: 50 } // Initial data point
+            ];
             let prevPrices1 = {}; 
             let fgScore1 = 50; 
             const coins1 = ["solana", "ai16z", "fartcoin", "zerebro", "goat", "griffain", "tao", "virtual", "act", "render", "arc"];
+
+            // Add initial series
+            let initialSeries1 = chart1.addLineSeries({ color: "#00ff00" });
+            initialSeries1.setData(fgDataPoints1);
+            fgSeries1.push({ series: initialSeries1, color: "#00ff00" });
+
             async function fetchCryptoData1() {
                 const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coins1.join(",")}&vs_currencies=usd`;
                 try {
@@ -163,10 +171,18 @@
                 },
             });
             let fgSeries2 = [];
-            let fgDataPoints2 = [];
+            let fgDataPoints2 = [
+                { time: Math.floor(Date.now() / 1000), value: 50 } // Initial data point
+            ];
             let prevPrices2 = {}; 
             let fgScore2 = 50; 
             const coins2 = ["bitcoin", "ethereum", "ripple", "binancecoin", "solana", "dogecoin"];
+
+            // Add initial series
+            let initialSeries2 = chart2.addLineSeries({ color: "#00ff00" });
+            initialSeries2.setData(fgDataPoints2);
+            fgSeries2.push({ series: initialSeries2, color: "#00ff00" });
+
             async function fetchCryptoData2() {
                 const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coins2.join(",")}&vs_currencies=usd`;
                 try {
