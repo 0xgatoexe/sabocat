@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Crypto Market Trend Data (30-second interval timestamp)</title>
+    <script src="https://unpkg.com/lightweight-charts@3.4.0/dist/lightweight-charts.standalone.production.js"></script>
+    <style>
+        .chart-container {
+            width: 100%;
+            height: 500px;
+            margin-bottom: 30px;
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h2>Real-Time Solana AI Market Trend Data (30-second interval timestamp)</h2>
+    <div id="chart1" class="chart-container"></div>
+    <h2>Real-Time Crypto Major Assets Trending Data (30-second interval timestamp)</h2>
+    <div id="chart2" class="chart-container"></div>
+
+    <script>
+        window.addEventListener('load', function () {
+            // Function to convert timestamp to Eastern Time string
+            function formatEasternTime(timestamp) {
+                const date = new Date(timestamp * 1000);
+                return date.toLocaleString('en-US', {
+                    timeZone: 'America/New_York',
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+            }
+
+            /** ---------------------- FIRST CHART: SOLANA AI TREND ---------------------- **/
+            const chart1 = LightweightCharts.createChart(document.getElementById('chart1'), {
+                width: window.innerWidth,
+                height: 500,
+                timeScale: { 
+                    timeVisible: true, 
+                    secondsVisible: true,
+                    tickMarkFormatter: (time) => formatEasternTime(time)
+                },
+            });
+
+            let fgSeries1 = [];
+            let fgDataPoints1 = [];
+            let prevPrices1 = {}; 
+            let fgScore1 = 50; 
+            const coins1 = ["solana", "ai16z", "fartcoin", "zerebro", "goat", "griffain", "tao", "virtual", "act", "render", "arc"];
+
+            async function fetchCryptoData1() {
+                const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coins1.join(",")}&vs_currencies=usd`;
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    const estTimestamp = Math.floor(Date.now() / 30000) * 30;
+                    let numUp = 0, numDown = 0;
+
+                    for (let coin of coins1) {
+                        if (data[coin] && data[coin].usd !== undefined) {
+                            let price = data[coin].usd;
+                            if (prevPrices1[coin] !== undefined) {
+                                if (price > prevPrices1[coin]) numUp++;
+                                else if (price < prevPrices1[coin]) numDown++;
+                            }
+                            prevPrices1[coin] = price;
+                        }
+                    }
+
+                    let previousFgScore = fgScore1;
+                    if (numUp > numDown) fgScore1 = Math.min(100, fgScore1 + 2);
+                    else if (numDown > numUp) fgScore1 = Math.max(0, fgScore1 - 2);
+
+                    fgDataPoints1.push({ time: estTimestamp, value: fgScore1 });
+
+                    let newColor = fgScore1 > previousFgScore ? "#00ff00" : "#ff0000";
+                    if (fgSeries1.length === 0 || fgSeries1[fgSeries1.length - 1].color !== newColor) {
+                        let newSeries = chart1.addLineSeries({ color: newColor });
+                        fgSeries1.push({ series: newSeries, color: newColor });
+                    }
+
+                    fgSeries1[fgSeries1.length - 1].series.setData(fgDataPoints1);
+                    chart1.timeScale().scrollToRealTime();
+                } catch (error) {
+                    console.error('Error fetching data from CoinGecko:', error);
+                }
+            }
+
+            setInterval(fetchCryptoData1, 30000);
+            fetchCryptoData1();
+
+            /** ---------------------- SECOND CHART: MAJOR CRYPTO TREND ---------------------- **/
+            const chart2 = LightweightCharts.createChart(document.getElementById('chart2'), {
+                width: window.innerWidth,
+                height: 500,
+                timeScale: { 
+                    timeVisible: true, 
+                    secondsVisible: true,
+                    tickMarkFormatter: (time) => formatEasternTime(time)
+                },
+            });
+
+            let fgSeries2 = [];
+            let fgDataPoints2 = [];
+            let prevPrices2 = {}; 
+            let fgScore2 = 50; 
+            const coins2 = ["bitcoin", "ethereum", "ripple", "binancecoin", "solana", "dogecoin"];
+
+            async function fetchCryptoData2() {
+                const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coins2.join(",")}&vs_currencies=usd`;
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    const estTimestamp = Math.floor(Date.now() / 30000) * 30;
+                    let numUp = 0, numDown = 0;
+
+                    for (let coin of coins2) {
+                        if (data[coin] && data[coin].usd !== undefined) {
+                            let price = data[coin].usd;
+                            if (prevPrices2[coin] !== undefined) {
+                                if (price > prevPrices2[coin]) numUp++;
+                                else if (price < prevPrices2[coin]) numDown++;
+                            }
+                            prevPrices2[coin] = price;
+                        }
+                    }
+
+                    let previousFgScore = fgScore2;
+                    if (numUp > numDown) fgScore2 = Math.min(100, fgScore2 + 2);
+                    else if (numDown > numUp) fgScore2 = Math.max(0, fgScore2 - 2);
+
+                    fgDataPoints2.push({ time: estTimestamp, value: fgScore2 });
+
+                    let newColor = fgScore2 > previousFgScore ? "#00ff00" : "#ff0000";
+                    if (fgSeries2.length === 0 || fgSeries2[fgSeries2.length - 1].color !== newColor) {
+                        let newSeries = chart2.addLineSeries({ color: newColor });
+                        fgSeries2.push({ series: newSeries, color: newColor });
+                    }
+
+                    fgSeries2[fgSeries2.length - 1].series.setData(fgDataPoints2);
+                    chart2.timeScale().scrollToRealTime();
+                } catch (error) {
+                    console.error('Error fetching data from CoinGecko:', error);
+                }
+            }
+
+            setInterval(fetchCryptoData2, 30000);
+            fetchCryptoData2();
+        });
+    </script>
+</body>
+</html>
