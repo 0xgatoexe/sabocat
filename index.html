@@ -53,12 +53,12 @@
             display: flex;
             gap: 10px;
             z-index: 2;
-            background: transparent; /* Ensure no background box */
+            background: transparent;
         }
         .bottom-right-images img {
-            height: 60px;
+            height: 75px;
             width: auto;
-            background: transparent; /* Extra safety for images */
+            background: transparent;
         }
 
         /* Logo Styling with Image and Text */
@@ -88,6 +88,49 @@
             letter-spacing: 2.5px;
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
             white-space: nowrap;
+        }
+
+        /* Bottom Left Buttons Container */
+        .bottom-left-buttons {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            z-index: 2;
+            display: flex;
+            gap: 10px;
+        }
+
+        /* CA, BUY, and MANIFESTO Buttons */
+        .ca-button, .buy-button, .manifesto-button {
+            font-family: 'main', sans-serif;
+            font-size: 1.2rem;
+            color: #00ff00;
+            background: transparent;
+            border: 1px solid #00ff00;
+            padding: 5px 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .ca-button:hover, .buy-button:hover, .manifesto-button:hover {
+            background: rgba(0, 255, 0, 0.1);
+            text-shadow: 0 0 10px rgba(0, 255, 0, 1);
+        }
+
+        /* Copied Message */
+        .copied-message {
+            position: absolute;
+            bottom: 40px;
+            left: 10px;
+            z-index: 2;
+            font-family: 'main', sans-serif;
+            font-size: 1rem;
+            color: #00ff00;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         /* Scrolling Text Below Matrix Header with Borders */
@@ -126,9 +169,9 @@
         }
 
         .chart-container {
-            width: 100%;
+            width: 80%;
             height: 500px;
-            margin-bottom: 30px;
+            margin: 0 auto 30px auto;
             background-color: #f4f4f4;
             position: relative;
         }
@@ -248,6 +291,20 @@
             font-weight: bold;
             cursor: pointer;
         }
+
+        /* Manifesto Section */
+        #manifesto {
+            width: 100%;
+            padding: 40px 20px;
+            background: black;
+            color: #00ff00;
+            text-align: center;
+            font-family: 'main', sans-serif;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+        }
     </style>
 </head>
 <body>
@@ -264,6 +321,13 @@
             <img src="images/nvidia-inception.png" alt="NVIDIA Inception">
             <img src="images/solana-logo.png" alt="Solana Logo">
         </div>
+        <!-- Bottom Left Buttons -->
+        <div class="bottom-left-buttons">
+            <button class="ca-button">CA</button>
+            <button class="buy-button">BUY</button>
+            <button class="manifesto-button">MANIFESTO</button>
+        </div>
+        <div class="copied-message" id="copied-message">Copied</div>
     </div>
     <!-- Scrolling Text Below Matrix Header with Borders -->
     <div class="marquee">
@@ -352,6 +416,8 @@
             </div>
         </div>
     </div>
+    <!-- Manifesto Section -->
+    <section id="manifesto">Manifesto</section>
 
     <script>
         const canvas = document.getElementById('canvas');
@@ -386,8 +452,11 @@
         });
 
         window.addEventListener('load', function () {
-            const chart1 = LightweightCharts.createChart(document.getElementById('chart1'), {
-                width: window.innerWidth,
+            const chart1Container = document.getElementById('chart1');
+            const chart2Container = document.getElementById('chart2');
+
+            const chart1 = LightweightCharts.createChart(chart1Container, {
+                width: chart1Container.offsetWidth,
                 height: 500,
                 timeScale: { 
                     timeVisible: true, 
@@ -451,8 +520,8 @@
             setInterval(fetchCryptoData1, 30000);
             fetchCryptoData1();
 
-            const chart2 = LightweightCharts.createChart(document.getElementById('chart2'), {
-                width: window.innerWidth,
+            const chart2 = LightweightCharts.createChart(chart2Container, {
+                width: chart2Container.offsetWidth,
                 height: 500,
                 timeScale: { 
                     timeVisible: true, 
@@ -516,35 +585,43 @@
             setInterval(fetchCryptoData2, 30000);
             fetchCryptoData2();
 
-            // JavaScript for click-based popup
-            document.querySelectorAll('.gallery-image img').forEach(image => {
-                image.addEventListener('click', () => {
-                    const popup = image.nextElementSibling;
-                    popup.style.display = 'block';
+            // Resize handler for charts
+            function resizeCharts() {
+                chart1.resize(chart1Container.offsetWidth, 500);
+                chart2.resize(chart2Container.offsetWidth, 500);
+            }
+            window.addEventListener('resize', resizeCharts);
+
+            // CA Button Functionality
+            const caButton = document.querySelector('.ca-button');
+            const copiedMessage = document.getElementById('copied-message');
+            const caString = "YOUR_LONG_STRING_HERE"; // Replace with your string later
+
+            caButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(caString).then(() => {
+                    copiedMessage.style.opacity = '1';
+                    setTimeout(() => {
+                        copiedMessage.style.opacity = '0';
+                    }, 1000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
                 });
             });
 
-            document.querySelectorAll('.popup-close').forEach(closeBtn => {
-                closeBtn.addEventListener('click', () => {
-                    closeBtn.parentElement.style.display = 'none';
-                });
+            // BUY Button Functionality
+            const buyButton = document.querySelector('.buy-button');
+            const buyUrl = "https://example.com"; // Replace with your hyperlink later
+
+            buyButton.addEventListener('click', () => {
+                window.open(buyUrl, '_blank');
             });
 
-            // JavaScript for rotating sabo-cat-transparency
-            const matrixImage = document.getElementById('matrix-image');
-            let matrixRotation = 0;
-            matrixImage.addEventListener('click', () => {
-                matrixRotation += 45;
-                if (matrixRotation >= 360) matrixRotation = 0;
-                matrixImage.style.transform = `translate(-50%, -50%) rotate(${matrixRotation}deg)`;
-            });
+            // MANIFESTO Button Functionality
+            const manifestoButton = document.querySelector('.manifesto-button');
+            const manifestoSection = document.getElementById('manifesto');
 
-            // JavaScript for flipping logo.png
-            const logoImage = document.querySelector('#logo img');
-            let logoRotation = 0;
-            logoImage.addEventListener('click', () => {
-                logoRotation = (logoRotation + 180) % 360;
-                logoImage.style.transform = `rotate(${logoRotation}deg)`;
+            manifestoButton.addEventListener('click', () => {
+                manifestoSection.scrollIntoView({ behavior: 'smooth' });
             });
         });
     </script>
