@@ -41,6 +41,8 @@
             max-width: 40%;
             height: auto;
             z-index: 1;
+            transition: transform 0.3s ease;
+            cursor: pointer;
         }
 
         /* Logo Styling with Image and Text */
@@ -57,6 +59,8 @@
             height: 10rem;
             width: auto;
             filter: none;
+            transition: transform 0.3s ease;
+            cursor: pointer;
         }
         #logo h1 {
             font-family: 'main', sans-serif;
@@ -84,7 +88,7 @@
         .marquee-content {
             display: flex;
             width: 200%;
-            animation: marquee-scroll 15s linear infinite; /* Original speed: 15s */
+            animation: marquee-scroll 15s linear infinite;
         }
         .marquee-content span {
             font-family: 'main', sans-serif;
@@ -120,57 +124,121 @@
             font-weight: 300;
         }
 
-/* Scrolling "Powered by Solana" Below Charts */
-.solana-marquee {
-    width: 100%;
-    height: 170px;
-    overflow: hidden;
-    position: relative;
-    background: black;
-    border-bottom: 1px solid #00ff00;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-.solana-marquee-content {
-    display: flex;
-    width: 200%;
-    animation: solana-scroll 15s linear infinite;
-    white-space: nowrap;
-}
-.solana-marquee-content span {
-    font-family: 'main', sans-serif;
-    font-size: 3.0rem;
-    color: #00ff00;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
-    padding-right: 15px;
-    line-height: 50px; /* Matches container height */
-}
-.solana-marquee-content img {
-    height: 3.0rem;
-    width: auto;
-    vertical-align: middle;
-    margin-right: 15px;
-    position: relative;
-    top: 0px; /* Adjust this to align with text */
-}
-@keyframes solana-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-.solana-marquee:hover .solana-marquee-content {
-    animation-play-state: paused;
-}
+        /* Twitter Banner Above Solana Marquee */
+        .twitter-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0;
+        }
+
+        /* Scrolling "Powered by Solana" Below Charts */
+        .solana-marquee {
+            width: 100%;
+            height: 170px;
+            overflow: hidden;
+            position: relative;
+            background: black;
+            border-top: 1px solid #00ff00;
+            border-bottom: 1px solid #00ff00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0; /* Remove top margin to align with banner */
+            padding: 20px 0;
+        }
+        .solana-marquee-content {
+            display: flex;
+            width: 200%;
+            animation: solana-scroll 15s linear infinite;
+            white-space: nowrap;
+        }
+        .solana-marquee-content span {
+            font-family: 'main', sans-serif;
+            font-size: 3.0rem;
+            color: #00ff00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+            padding-right: 15px;
+            line-height: 50px;
+        }
+        .solana-marquee-content img {
+            height: 3.0rem;
+            width: auto;
+            vertical-align: middle;
+            margin-right: 15px;
+            position: relative;
+            top: 0px;
+        }
+        @keyframes solana-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .solana-marquee:hover .solana-marquee-content {
+            animation-play-state: paused;
+        }
+
+        /* Image Gallery Below Solana Marquee */
+        .image-gallery {
+            width: 100%;
+            background: black;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .gallery-row {
+            display: flex;
+            justify-content: center;
+            width: 90%;
+            margin-bottom: 20px;
+        }
+        .gallery-image {
+            position: relative;
+            width: 30%;
+            margin: 0 1.5%;
+        }
+        .gallery-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        /* Popup Styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border: 2px solid #00ff00;
+            z-index: 1000;
+        }
+        .popup img {
+            max-width: 80vw;
+            max-height: 80vh;
+            display: block;
+        }
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #00ff00;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div id="matrix-container">
         <canvas id="canvas"></canvas>
         <img src="sabo-cat-transparency.png" alt="sabo cat transparency" id="matrix-image">
-        <!-- Logo in Top Left with Image Left of Text -->
+        <!-- Logo in Top Left with Image and Text -->
         <div id="logo">
             <img src="logo.png" alt="Sabo Cat Logo">
             <h1>SABO CAT THE MARKET WIZARD</h1>
@@ -187,6 +255,8 @@
     <div id="chart1" class="chart-container"></div>
     <h2>Real-Time Crypto Major Assets Trending Data (30-second interval timestamp)</h2>
     <div id="chart2" class="chart-container"></div>
+    <!-- Twitter Banner Above Solana Marquee -->
+    <img src="images/sabo-cat-twitter-banner.png" alt="Sabo Cat Twitter Banner" class="twitter-banner">
     <!-- Scrolling "Powered by Solana" Below Charts -->
     <div class="solana-marquee">
         <div class="solana-marquee-content">
@@ -210,6 +280,55 @@
             <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
             <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
             <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+        </div>
+    </div>
+    <!-- Image Gallery Below Solana Marquee -->
+    <div class="image-gallery">
+        <div class="gallery-row">
+            <div class="gallery-image">
+                <img src="images/classroom-sabo.png" alt="Classroom Sabo">
+                <div class="popup">
+                    <img src="images/classroom-sabo.png" alt="Classroom Sabo Enlarged">
+                    <span class="popup-close">X</span>
+                </div>
+            </div>
+            <div class="gallery-image">
+                <img src="images/sabo-cat-coder.png" alt="Sabo Cat Coder">
+                <div class="popup">
+                    <img src="images/sabo-cat-coder.png" alt="Sabo Cat Coder Enlarged">
+                    <span class="popup-close">X</span>
+                </div>
+            </div>
+            <div class="gallery-image">
+                <img src="images/sabo-cat-glad.png" alt="Sabo Cat Glad">
+                <div class="popup">
+                    <img src="images/sabo-cat-glad.png" alt="Sabo Cat Glad Enlarged">
+                    <span class="popup-close">X</span>
+                </div>
+            </div>
+        </div>
+        <div class="gallery-row">
+            <div class="gallery-image">
+                <img src="images/sabo-cat-time-square.png" alt="Sabo Cat Time Square">
+                <div class="popup">
+                    <img src="images/sabo-cat-time-square.png" alt="Sabo Cat Time Square Enlarged">
+                    <span class="popup-close">X</span>
+                </div>
+            </div>
+            <div class="gallery-image">
+                <img src="images/sabo-cat-wizard.png" alt="Sabo Cat Wizard">
+                <div class="popup">
+                    <img src="images/sabo-cat-wizard.png" alt="Sabo Cat Wizard Enlarged">
+                    <span class="popup-close">X</span>
+                </div>
+            </div>
+            <div class="gallery-image">
+                <img src="images/sabo-paris.png" alt="Sabo Paris">
+                <div class="popup">
+                    <img src="images/sabo-paris.png" alt="Sabo Paris Enlarged">
+                    <span class="popup-close">X</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -375,6 +494,37 @@
             }
             setInterval(fetchCryptoData2, 30000);
             fetchCryptoData2();
+
+            // JavaScript for click-based popup
+            document.querySelectorAll('.gallery-image img').forEach(image => {
+                image.addEventListener('click', () => {
+                    const popup = image.nextElementSibling;
+                    popup.style.display = 'block';
+                });
+            });
+
+            document.querySelectorAll('.popup-close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', () => {
+                    closeBtn.parentElement.style.display = 'none';
+                });
+            });
+
+            // JavaScript for rotating sabo-cat-transparency
+            const matrixImage = document.getElementById('matrix-image');
+            let matrixRotation = 0;
+            matrixImage.addEventListener('click', () => {
+                matrixRotation += 45;
+                if (matrixRotation >= 360) matrixRotation = 0;
+                matrixImage.style.transform = `translate(-50%, -50%) rotate(${matrixRotation}deg)`;
+            });
+
+            // JavaScript for flipping logo.png
+            const logoImage = document.querySelector('#logo img');
+            let logoRotation = 0;
+            logoImage.addEventListener('click', () => {
+                logoRotation = (logoRotation + 180) % 360;
+                logoImage.style.transform = `rotate(${logoRotation}deg)`;
+            });
         });
     </script>
 </body>
