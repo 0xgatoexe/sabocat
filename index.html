@@ -38,7 +38,7 @@
             top: 60%;
             left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 40%; /* Smaller */
+            max-width: 40%;
             height: auto;
             z-index: 1;
         }
@@ -46,28 +46,63 @@
         /* Logo Styling with Image and Text */
         #logo {
             position: absolute;
-            top: -40px; /* Distance from top edge */
-            left: 5px; /* Distance from left edge */
+            top: -40px;
+            left: 5px;
             z-index: 2;
-            display: flex; /* Flexbox for horizontal alignment */
-            align-items: center; /* Vertically center image and text */
-            gap: 5px; /* Space between image and text */
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         #logo img {
-            height: 10rem; /* 1.5x larger than text font-size (2rem * 1.5 = 3rem) */
-            width: auto; /* Maintain aspect ratio */
+            height: 10rem;
+            width: auto;
             filter: none;
         }
         #logo h1 {
-            font-family: 'main', sans-serif; /* Using Heavitas */
-            color: #00ff00; /* Matrix green */
-            font-size: 2rem; /* Text size */
+            font-family: 'main', sans-serif;
+            color: #00ff00;
+            font-size: 2rem;
             margin: 0;
-            margin-left: -45px; /* Moves text 10px left */
+            margin-left: -45px;
             text-transform: uppercase;
             letter-spacing: 2.5px;
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
-            white-space: nowrap; /* Keep text on one line */
+            white-space: nowrap;
+        }
+
+        /* Scrolling Text Below Matrix Header with Borders */
+        .marquee {
+            width: 100%;
+            height: 50px;
+            overflow: hidden;
+            position: relative;
+            background: black;
+            border-top: 1px solid #00ff00;
+            border-bottom: 1px solid #00ff00;
+            line-height: 48px;
+        }
+        .marquee-content {
+            display: flex;
+            width: 200%;
+            animation: marquee-scroll 15s linear infinite; /* Original speed: 15s */
+        }
+        .marquee-content span {
+            font-family: 'main', sans-serif;
+            font-size: 1.5rem;
+            color: #00ff00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+            padding-right: 40px;
+            white-space: nowrap;
+            flex: 1;
+        }
+        @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee:hover .marquee-content {
+            animation-play-state: paused;
         }
 
         .chart-container {
@@ -82,7 +117,50 @@
             text-align: center;
             margin: 20px 0;
             font-family: 'proxima-nova', sans-serif;
-            font-weight: 300; /* n3 corresponds to weight 300 */
+            font-weight: 300;
+        }
+
+        /* Scrolling "Powered by Solana" Below Charts */
+        .solana-marquee {
+            width: 100%;
+            height: 50px;
+            overflow: hidden;
+            position: relative;
+            background: black;
+            border-bottom: 1px solid #00ff00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .solana-marquee-content {
+            display: flex;
+            width: 200%;
+            animation: solana-scroll 15s linear infinite; /* Matched to 15s */
+            white-space: nowrap;
+        }
+        .solana-marquee-content span {
+            font-family: 'main', sans-serif;
+            font-size: 1.8rem;
+            color: #00ff00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+            padding-right: 15px;
+            line-height: 50px; /* Matches container height */
+        }
+        .solana-marquee-content img {
+            height: 1.8rem;
+            width: auto;
+            vertical-align: text-bottom; /* Aligns logo with text baseline */
+            margin-right: 15px;
+        }
+        @keyframes solana-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .solana-marquee:hover .solana-marquee-content {
+            animation-play-state: paused;
         }
     </style>
 </head>
@@ -96,10 +174,42 @@
             <h1>SABO CAT THE MARKET WIZARD</h1>
         </div>
     </div>
+    <!-- Scrolling Text Below Matrix Header with Borders -->
+    <div class="marquee">
+        <div class="marquee-content">
+            <span>$SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI</span>
+            <span>$SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI</span>
+        </div>
+    </div>
     <h2>Real-Time Solana AI Market Trend Data (30-second interval timestamp)</h2>
     <div id="chart1" class="chart-container"></div>
     <h2>Real-Time Crypto Major Assets Trending Data (30-second interval timestamp)</h2>
     <div id="chart2" class="chart-container"></div>
+    <!-- Scrolling "Powered by Solana" Below Charts -->
+    <div class="solana-marquee">
+        <div class="solana-marquee-content">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+        </div>
+    </div>
 
     <script>
         const canvas = document.getElementById('canvas');
@@ -154,13 +264,12 @@
             });
             let fgSeries1 = [];
             let fgDataPoints1 = [
-                { time: Math.floor(Date.now() / 1000), value: 50 } // Initial data point
+                { time: Math.floor(Date.now() / 1000), value: 50 }
             ];
             let prevPrices1 = {}; 
             let fgScore1 = 50; 
             const coins1 = ["solana", "ai16z", "fartcoin", "zerebro", "goat", "griffain", "tao", "virtual", "act", "render", "arc"];
 
-            // Add initial series
             let initialSeries1 = chart1.addLineSeries({ color: "#00ff00" });
             initialSeries1.setData(fgDataPoints1);
             fgSeries1.push({ series: initialSeries1, color: "#00ff00" });
@@ -220,13 +329,12 @@
             });
             let fgSeries2 = [];
             let fgDataPoints2 = [
-                { time: Math.floor(Date.now() / 1000), value: 50 } // Initial data point
+                { time: Math.floor(Date.now() / 1000), value: 50 }
             ];
             let prevPrices2 = {}; 
             let fgScore2 = 50; 
             const coins2 = ["bitcoin", "ethereum", "ripple", "binancecoin", "solana", "dogecoin"];
 
-            // Add initial series
             let initialSeries2 = chart2.addLineSeries({ color: "#00ff00" });
             initialSeries2.setData(fgDataPoints2);
             fgSeries2.push({ series: initialSeries2, color: "#00ff00" });
