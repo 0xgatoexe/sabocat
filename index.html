@@ -314,13 +314,13 @@
         <img src="sabo-cat-transparency.png" alt="sabo cat transparency" id="matrix-image">
         <!-- Logo in Top Left with Image and Text -->
         <div id="logo">
-            <img src="logo.png" alt="Sabo Cat Logo">
+            <img src="logo.png" alt="Sabo Cat Logo" id="logo-image">
             <h1>SABO CAT THE MARKET WIZARD</h1>
         </div>
         <!-- Bottom Right Images -->
         <div class="bottom-right-images">
             <img src="images/nvidia-inception.png" alt="NVIDIA Inception">
-            <img src="images/solana-logo.png" alt="Solana Logo">
+            <img src="images/sabo-cat-transparency.png" alt="Solana Logo">
         </div>
         <!-- Bottom Left Buttons -->
         <div class="bottom-left-buttons">
@@ -597,7 +597,6 @@
             const caButton = document.querySelector('.ca-button');
             const copiedMessage = document.getElementById('copied-message');
             const caString = "YOUR_LONG_STRING_HERE"; // Replace with your string later
-
             caButton.addEventListener('click', () => {
                 navigator.clipboard.writeText(caString).then(() => {
                     copiedMessage.style.opacity = '1';
@@ -612,7 +611,6 @@
             // BUY Button Functionality
             const buyButton = document.querySelector('.buy-button');
             const buyUrl = "https://example.com"; // Replace with your hyperlink later
-
             buyButton.addEventListener('click', () => {
                 window.open(buyUrl, '_blank');
             });
@@ -620,9 +618,43 @@
             // MANIFESTO Button Functionality
             const manifestoButton = document.querySelector('.manifesto-button');
             const manifestoSection = document.getElementById('manifesto');
-
             manifestoButton.addEventListener('click', () => {
                 manifestoSection.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // Rotation for sabo-cat-transparency.png (45° per click, 8 clicks to complete)
+            const matrixImage = document.getElementById('matrix-image');
+            let rotationCount = 0;
+            matrixImage.addEventListener('click', () => {
+                rotationCount = (rotationCount + 1) % 8; // Cycles 0-7, resets to 0 after 8 clicks
+                const rotationAngle = rotationCount * 45; // 45° per click
+                matrixImage.style.transform = `translate(-50%, -50%) rotate(${rotationAngle}deg)`;
+            });
+
+            // Flip for logo.png (180° on first click, back to 0° on second)
+            const logoImage = document.getElementById('logo-image');
+            let isFlipped = false;
+            logoImage.addEventListener('click', () => {
+                isFlipped = !isFlipped; // Toggle flip state
+                logoImage.style.transform = isFlipped ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+
+            // Popup functionality for gallery images
+            const galleryImages = document.querySelectorAll('.gallery-image');
+            galleryImages.forEach(gallery => {
+                const img = gallery.querySelector('img');
+                const popup = gallery.querySelector('.popup');
+                const closeBtn = gallery.querySelector('.popup-close');
+
+                // Open popup when clicking the image
+                img.addEventListener('click', () => {
+                    popup.style.display = 'block';
+                });
+
+                // Close popup when clicking the "X"
+                closeBtn.addEventListener('click', () => {
+                    popup.style.display = 'none';
+                });
             });
         });
     </script>
