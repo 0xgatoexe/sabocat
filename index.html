@@ -120,48 +120,50 @@
             font-weight: 300;
         }
 
-        /* Scrolling "Powered by Solana" Below Charts */
-        .solana-marquee {
-            width: 100%;
-            height: 50px;
-            overflow: hidden;
-            position: relative;
-            background: black;
-            border-bottom: 1px solid #00ff00;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-        }
-        .solana-marquee-content {
-            display: flex;
-            width: 200%;
-            animation: solana-scroll 15s linear infinite; /* Matched to 15s */
-            white-space: nowrap;
-        }
-        .solana-marquee-content span {
-            font-family: 'main', sans-serif;
-            font-size: 1.8rem;
-            color: #00ff00;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
-            padding-right: 15px;
-            line-height: 50px; /* Matches container height */
-        }
-        .solana-marquee-content img {
-            height: 1.8rem;
-            width: auto;
-            vertical-align: text-bottom; /* Aligns logo with text baseline */
-            margin-right: 15px;
-        }
-        @keyframes solana-scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .solana-marquee:hover .solana-marquee-content {
-            animation-play-state: paused;
-        }
+/* Scrolling "Powered by Solana" Below Charts */
+.solana-marquee {
+    width: 100%;
+    height: 50px;
+    overflow: hidden;
+    position: relative;
+    background: black;
+    border-bottom: 1px solid #00ff00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.solana-marquee-content {
+    display: flex;
+    width: 200%;
+    animation: solana-scroll 15s linear infinite;
+    white-space: nowrap;
+}
+.solana-marquee-content span {
+    font-family: 'main', sans-serif;
+    font-size: 1.8rem;
+    color: #00ff00;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+    padding-right: 15px;
+    line-height: 50px; /* Matches container height */
+}
+.solana-marquee-content img {
+    height: 1.8rem;
+    width: auto;
+    vertical-align: middle;
+    margin-right: 15px;
+    position: relative;
+    top: 10px; /* Adjust this to align with text */
+}
+@keyframes solana-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.solana-marquee:hover .solana-marquee-content {
+    animation-play-state: paused;
+}
     </style>
 </head>
 <body>
