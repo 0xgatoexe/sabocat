@@ -45,6 +45,22 @@
             cursor: pointer;
         }
 
+        /* Bottom Right Images in Matrix Container */
+        .bottom-right-images {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+            z-index: 2;
+            background: transparent; /* Ensure no background box */
+        }
+        .bottom-right-images img {
+            height: 60px;
+            width: auto;
+            background: transparent; /* Extra safety for images */
+        }
+
         /* Logo Styling with Image and Text */
         #logo {
             position: absolute;
@@ -144,7 +160,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 0; /* Remove top margin to align with banner */
+            margin-top: 0;
             padding: 20px 0;
         }
         .solana-marquee-content {
@@ -242,6 +258,11 @@
         <div id="logo">
             <img src="logo.png" alt="Sabo Cat Logo">
             <h1>SABO CAT THE MARKET WIZARD</h1>
+        </div>
+        <!-- Bottom Right Images -->
+        <div class="bottom-right-images">
+            <img src="images/nvidia-inception.png" alt="NVIDIA Inception">
+            <img src="images/solana-logo.png" alt="Solana Logo">
         </div>
     </div>
     <!-- Scrolling Text Below Matrix Header with Borders -->
