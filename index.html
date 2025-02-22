@@ -101,8 +101,8 @@
             gap: 10px;
         }
 
-        /* CA, BUY, and MANIFESTO Buttons */
-        .ca-button, .buy-button, .manifesto-button {
+        /* CA, BUY, MANIFESTO, and Audio Toggle Buttons */
+        .ca-button, .buy-button, .manifesto-button, .audio-toggle-button {
             font-family: 'main', sans-serif;
             font-size: 1.2rem;
             color: #00ff00;
@@ -115,7 +115,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        .ca-button:hover, .buy-button:hover, .manifesto-button:hover {
+        .ca-button:hover, .buy-button:hover, .manifesto-button:hover, .audio-toggle-button:hover {
             background: rgba(0, 255, 0, 0.1);
             text-shadow: 0 0 10px rgba(0, 255, 0, 1);
         }
@@ -132,6 +132,11 @@
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
             opacity: 0;
             transition: opacity 0.3s ease;
+        }
+
+        /* Hide default audio controls */
+        #background-audio {
+            display: none;
         }
 
         /* Scrolling Text Below Matrix Header with Borders */
@@ -309,6 +314,12 @@
     </style>
 </head>
 <body>
+    <!-- Audio Element -->
+    <audio id="background-audio" autoplay loop>
+        <source src="background-song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <div id="matrix-container">
         <canvas id="canvas"></canvas>
         <img src="sabo-cat-transparency.png" alt="sabo cat transparency" id="matrix-image">
@@ -320,13 +331,14 @@
         <!-- Bottom Right Images -->
         <div class="bottom-right-images">
             <img src="images/nvidia-inception.png" alt="NVIDIA Inception">
-            <img src="images/sabo-cat-transparency.png" alt="Solana Logo">
+            <img src="images/solana-logo.png" alt="Solana Logo"> <!-- Fixed path -->
         </div>
         <!-- Bottom Left Buttons -->
         <div class="bottom-left-buttons">
             <button class="ca-button">CA</button>
             <button class="buy-button">BUY</button>
             <button class="manifesto-button">MANIFESTO</button>
+            <button class="audio-toggle-button" id="audio-toggle">PAUSE</button>
         </div>
         <div class="copied-message" id="copied-message">Copied</div>
     </div>
@@ -346,26 +358,26 @@
     <!-- Scrolling "Powered by Solana" Below Charts -->
     <div class="solana-marquee">
         <div class="solana-marquee-content">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
-            <span>POWERED BY SOLANA</span><img src="solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
+            <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
         </div>
     </div>
     <!-- Image Gallery Below Solana Marquee -->
@@ -655,6 +667,30 @@
                 closeBtn.addEventListener('click', () => {
                     popup.style.display = 'none';
                 });
+            });
+
+            // Audio toggle functionality
+            const audio = document.getElementById('background-audio');
+            const audioToggleButton = document.getElementById('audio-toggle');
+
+            // Ensure audio starts playing automatically
+            audio.play().catch(error => {
+                console.log("Autoplay was prevented:", error);
+                // Fallback: Start playing on first user interaction if autoplay is blocked
+                document.body.addEventListener('click', function startAudio() {
+                    audio.play();
+                    document.body.removeEventListener('click', startAudio);
+                }, { once: true });
+            });
+
+            audioToggleButton.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    audioToggleButton.textContent = 'PAUSE';
+                } else {
+                    audio.pause();
+                    audioToggleButton.textContent = 'PLAY';
+                }
             });
         });
     </script>
