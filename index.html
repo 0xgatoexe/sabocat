@@ -55,7 +55,7 @@
             max-width: 200px;
             height: auto;
             transform-origin: center;
-            outline: none;
+            outline: none; /* Add this line */
         }
 
         /* Desktop default offsets */
@@ -97,16 +97,54 @@
             cursor: pointer;
         }
         #logo h1 {
-            font-family: 'main', sans-serif;
-            color: #00ff00;
-            font-size: clamp(1rem, 4vw, 2rem);
-            margin: 0;
-            margin-left: -1rem; /* Default for desktop */
-            text-transform: uppercase;
-            letter-spacing: 0.1rem;
-            text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
-            white-space: nowrap;
-        }
+    font-family: 'main', sans-serif;
+    color: #00ff00;
+    font-size: clamp(1rem, 4vw, 2rem);
+    margin: 0;
+    margin-left: -1rem; /* Default for desktop */
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+    white-space: nowrap;
+}
+
+/* Existing mobile adjustment (you already have this) */
+@media (max-width: 768px) {
+    #logo h1 {
+        margin-left: -50; /* Override for mobile */
+        margin-top: 0;
+    }
+    /* Your other mobile rules remain unchanged */
+    #matrix-image {
+        flex-direction: column;
+        gap: 0;
+    }
+    #matrix-image img {
+        width: 60%;
+        max-width: 150px;
+    }
+    #matrix-image img:first-child {
+        margin-top: var(--transparency-vertical-offset, 20px);
+        margin-left: var(--transparency-horizontal-offset, 0px);
+    }
+    #matrix-image img:last-child {
+        margin-top: var(--staff-vertical-offset, -118px);
+        margin-left: var(--staff-horizontal-offset, 28px);
+    }
+    .bottom-left-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 0.5rem;
+    }
+    .gallery-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    .gallery-image {
+        width: 80%;
+        margin: 0.5rem 0;
+    }
+}
 
         .bottom-left-buttons {
             position: absolute;
@@ -338,13 +376,14 @@
                 width: 60%;
                 max-width: 150px;
             }
-            #matrix-image img:first-child {
-                margin-top: var(--transparency-vertical-offset, 20px);
-                margin-left: var(--transparency-horizontal-offset, 0px);
+            /* Mobile-specific offsets */
+            #matrix-image img:first-child { /* sabo-cat-transparency.png */
+                margin-top: var(--transparency-vertical-offset, 20px); /* Adjust vertical for mobile */
+                margin-left: var(--transparency-horizontal-offset, 0px); /* Adjust horizontal for mobile */
             }
-            #matrix-image img:last-child {
-                margin-top: var(--staff-vertical-offset, -118px);
-                margin-left: var(--staff-horizontal-offset, 28px);
+            #matrix-image img:last-child { /* sabo-cat-staff.png */
+                margin-top: var(--staff-vertical-offset, -118px); /* Adjust vertical for mobile */
+                margin-left: var(--staff-horizontal-offset, 28px); /* Adjust horizontal for mobile */
             }
             .bottom-left-buttons {
                 flex-direction: row;
@@ -371,13 +410,6 @@
             }
             .bottom-right-images img {
                 height: clamp(30px, 8vw, 50px);
-            }
-        }
-
-        /* Mobile landscape adjustment */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .bottom-left-buttons {
-                bottom: -2rem; /* Reduce bottom spacing to move buttons higher */
             }
         }
     </style>
