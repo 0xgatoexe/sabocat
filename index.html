@@ -108,14 +108,16 @@
             white-space: nowrap;
         }
 
-        /* Bottom Left Buttons Container */
+        /* Bottom Left Buttons Container (Centered Horizontally) */
         .bottom-left-buttons {
             position: absolute;
             bottom: 10px;
-            left: 10px;
+            left: 50%; /* Center horizontally in #matrix-container */
+            transform: translateX(-50%); /* Shift left by half its width to center it */
             z-index: 2;
             display: flex;
             gap: 10px;
+            justify-content: center; /* Center all buttons within the container */
         }
 
         /* CA, BUY, MANIFESTO, Audio Toggle, and Counter Buttons */
@@ -135,11 +137,6 @@
         .ca-button:hover, .buy-button:hover, .manifesto-button:hover, .audio-toggle-button:hover, .counter-button:hover {
             background: rgba(0, 255, 0, 0.1);
             text-shadow: 0 0 10px rgba(0, 255, 0, 1);
-        }
-
-        /* Counter Button Specific Styling (Shifted 50px to the right) */
-        .counter-button {
-            margin-left: 1244px; /* Shifts only the Counter button 50px to the right within the flex container */
         }
 
         /* Copied Message */
@@ -358,7 +355,7 @@
             <img src="images/nvidia-inception.png" alt="NVIDIA Inception">
             <img src="images/solana-logo.png" alt="Solana Logo"> <!-- Fixed path -->
         </div>
-        <!-- Bottom Left Buttons (including Counter Button) -->
+        <!-- Bottom Left Buttons (including Counter Button, now centered) -->
         <div class="bottom-left-buttons">
             <button class="ca-button">CA</button>
             <button class="buy-button">BUY</button>
