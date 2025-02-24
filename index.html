@@ -101,7 +101,7 @@
             color: #00ff00;
             font-size: clamp(1rem, 4vw, 2rem);
             margin: 0;
-            margin-left: -1rem; /* Default for desktop */
+            margin-left: -1rem;
             text-transform: uppercase;
             letter-spacing: 0.1rem;
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
@@ -374,10 +374,13 @@
             }
         }
 
-        /* Landscape mode adjustment for buttons */
+        /* Landscape mode adjustments */
         @media (max-width: 768px) and (orientation: landscape) {
             .bottom-left-buttons {
-                bottom: 2rem; /* Move buttons up by increasing bottom value */
+                bottom: 2rem; /* Move buttons up */
+            }
+            #logo {
+                top: 0rem; /* Move logo and title up to the top */
             }
         }
     </style>
