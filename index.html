@@ -123,6 +123,11 @@
             max-width: 800px;
         }
 
+        .ca-container, .mail-container {
+            position: relative;
+            display: inline-block;
+        }
+
         .ca-button, .buy-button, .manifesto-button, 
         .audio-toggle-button, .counter-button {
             font-family: 'main', sans-serif;
@@ -146,18 +151,30 @@
 
         .copied-message {
             position: absolute;
-            bottom: 2.5rem;
-            left: 0.5rem;
-            z-index: 2;
+            top: 100%;
+            left: 0;
             font-family: 'main', sans-serif;
             font-size: clamp(0.8rem, 2vw, 1rem);
             color: #00ff00;
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
             opacity: 0;
             transition: opacity 0.3s ease;
+            white-space: nowrap;
         }
 
-        /* New social media links styles */
+        .mail-copied-message {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            font-family: 'main', sans-serif;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            color: #00ff00;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
         .social-links {
             position: absolute;
             bottom: 1rem;
@@ -385,6 +402,31 @@
             text-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
         }
 
+        .bottom-right-container {
+            width: 100%;
+            background: black;
+            padding: 1rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+        }
+        .bottom-right-container img#sabo-labs {
+            height: clamp(130px, 40vw, 220px);
+            width: auto;
+        }
+        .bottom-right-container img#mail-logo {
+            height: clamp(40px, 10vw, 60px);
+            width: auto;
+            cursor: pointer;
+        }
+        .bottom-right-container a {
+            transition: transform 0.3s ease;
+        }
+        .bottom-right-container a:hover {
+            transform: scale(1.05); /* Slight scale effect on hover */
+        }
+
         /* Mobile-specific adjustments */
         @media (max-width: 768px) {
             #matrix-image {
@@ -431,6 +473,12 @@
             }
             .social-links img {
                 height: clamp(25px, 6vw, 40px);
+            }
+            .bottom-right-container img#sabo-labs {
+                height: clamp(60px, 15vw, 120px);
+            }
+            .bottom-right-container img#mail-logo {
+                height: clamp(30px, 8vw, 50px);
             }
         }
 
@@ -495,6 +543,13 @@
             .social-links img {
                 height: clamp(20px, 6vw, 30px);
             }
+
+            .bottom-right-container img#sabo-labs {
+                height: clamp(50px, 12vw, 90px);
+            }
+            .bottom-right-container img#mail-logo {
+                height: clamp(25px, 6vw, 40px);
+            }
         }
     </style>
 </head>
@@ -518,7 +573,10 @@
             <img src="images/nvidia-inception.png" alt="NVIDIA Inception">
         </div>
         <div class="bottom-left-buttons">
-            <button class="ca-button">CA</button>
+            <div class="ca-container">
+                <button class="ca-button">CA</button>
+                <div class="copied-message" id="copied-message">Copied</div>
+            </div>
             <button class="buy-button">BUY</button>
             <button class="manifesto-button">MANIFESTO</button>
             <button class="audio-toggle-button" id="audio-toggle">PAUSE</button>
@@ -532,7 +590,6 @@
                 <img src="images/xlogo.png" alt="X">
             </a>
         </div>
-        <div class="copied-message" id="copied-message">Copied</div>
     </div>
     <div class="marquee">
         <div class="marquee-content">
@@ -635,6 +692,15 @@
             <p class="highlight">Embrace the Future. Embrace SABO CAT.</p>
         </div>
     </section>
+    <div class="bottom-right-container">
+        <div class="mail-container">
+            <img src="images/mail-logo.png" alt="Mail" id="mail-logo">
+            <div class="mail-copied-message" id="mail-copied-message">Copied</div>
+        </div>
+        <a href="https://x.com/sabolabs" target="_blank">
+            <img src="images/sabo-labs.png" alt="Sabo Labs" id="sabo-labs">
+        </a>
+    </div>
 
     <script>
         const canvas = document.getElementById('canvas');
@@ -669,7 +735,6 @@
         });
 
         window.addEventListener('load', function () {
-            // Lock orientation to portrait on page load
             if (screen.orientation && screen.orientation.lock) {
                 screen.orientation.lock('portrait')
                     .then(() => {
@@ -832,6 +897,20 @@
                     }, 1000);
                 }).catch(err => {
                     console.error('Failed to copy text: ', err);
+                });
+            });
+
+            const mailLogo = document.getElementById('mail-logo');
+            const mailCopiedMessage = document.getElementById('mail-copied-message');
+            const mailString = "YOUR_EMAIL_HERE@example.com"; // Replace with your email
+            mailLogo.addEventListener('click', () => {
+                navigator.clipboard.writeText(mailString).then(() => {
+                    mailCopiedMessage.style.opacity = '1';
+                    setTimeout(() => {
+                        mailCopiedMessage.style.opacity = '0';
+                    }, 1000);
+                }).catch(err => {
+                    console.error('Failed to copy email: ', err);
                 });
             });
 
