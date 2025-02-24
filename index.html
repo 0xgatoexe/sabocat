@@ -374,28 +374,64 @@
             }
         }
 
-        /* Landscape mode adjustments for specific elements */
+        /* Landscape mode adjustments for mobile */
         @media (orientation: landscape) and (max-height: 500px) {
-            #matrix-image img:first-child { /* sabo-cat-transparency.png */
-                margin-top: 10px; /* Move up slightly */
-                margin-left: -100px; /* Shift left to use wider space */
+            #matrix-container {
+                height: 40vh; /* Reduce height slightly to fit landscape */
+                max-height: 300px; /* Cap height to avoid overflow */
             }
-            #matrix-image img:last-child { /* sabo-cat-staff.png */
-                margin-top: 10px; /* Align vertically with first image */
-                margin-left: 50px; /* Shift right to avoid overlap */
+
+            #matrix-image {
+                flex-direction: row; /* Switch to horizontal layout */
+                gap: 5px; /* Reduce gap for tighter fit */
+                width: 80%; /* Narrow width to fit more comfortably */
+                max-width: 400px; /* Limit max width in landscape */
             }
-            #logo img { /* logo.png */
-                position: absolute;
-                top: 0.3rem; /* Move closer to top */
-                left: 0.3rem; /* Move closer to left */
-                height: clamp(2rem, 10vw, 4rem); /* Slightly smaller */
+
+            #matrix-image img {
+                width: 40%; /* Reduce image size to fit side by side */
+                max-width: 120px; /* Cap width for smaller screens */
             }
-            #logo h1 { /* Sabo Cat Market Wizard text */
-                position: absolute;
-                top: 0.5rem; /* Adjust to fit beside logo */
-                left: clamp(2.5rem, 15vw, 5rem); /* Shift right to avoid overlap with logo */
-                font-size: clamp(0.8rem, 2.5vw, 1.2rem); /* Smaller text */
-                margin-left: 0; /* Reset margin */
+
+            /* Reset margins for horizontal layout */
+            #matrix-image img:first-child {
+                margin-top: 0; /* Remove vertical offset */
+                margin-left: 0; /* Remove horizontal offset */
+            }
+
+            #matrix-image img:last-child {
+                margin-top: 0; /* Remove vertical offset */
+                margin-left: 0; /* Remove horizontal offset */
+            }
+
+            /* Ensure logo and buttons don’t overlap */
+            #logo {
+                top: 0.3rem;
+                left: 0.3rem;
+            }
+
+            #logo img {
+                height: clamp(2rem, 15vw, 4rem); /* Smaller logo in landscape */
+            }
+
+            #logo h1 {
+                font-size: clamp(0.8rem, 3vw, 1.2rem); /* Smaller text */
+            }
+
+            .bottom-left-buttons {
+                bottom: 0.5rem;
+                width: 90%;
+                gap: 0.3rem;
+            }
+
+            .ca-button, .buy-button, .manifesto-button, 
+            .audio-toggle-button, .counter-button {
+                font-size: clamp(0.6rem, 2vw, 1rem); /* Smaller buttons */
+                padding: 0.2rem 0.4rem;
+            }
+
+            .bottom-right-images img {
+                height: clamp(20px, 8vw, 40px); /* Smaller bottom-right images */
             }
         }
     </style>
