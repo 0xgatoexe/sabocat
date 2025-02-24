@@ -8,7 +8,6 @@
     <script src="https://unpkg.com/lightweight-charts@3.4.0/dist/lightweight-charts.standalone.production.js"></script>
     <link rel="stylesheet" href="https://use.typekit.net/af/153422/00000000000000007759c419/30/l?subset_id=2&fvd=n3&v=3" type="text/css">
     <style>
-        /* Font Face Definition for Heavitas */
         @font-face {
             font-display: swap;
             font-family: 'main';
@@ -22,11 +21,13 @@
             margin: 0;
             padding: 0;
             background: black;
+            min-height: 100vh;
         }
 
         #matrix-container {
             width: 100%;
-            height: 400px;
+            height: 50vh;
+            max-height: 400px;
             position: relative;
             overflow: hidden;
         }
@@ -36,138 +37,137 @@
         }
         #matrix-image {
             position: absolute;
-            top: 60%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             display: flex;
             align-items: center;
-            justify-content: center; /* Centers the flex items perfectly */
-            gap: 20px; /* Space between the images */
-            max-width: 100%; /* Allow full width to ensure proper centering */
-            height: auto;
+            justify-content: center;
+            gap: 10px;
+            width: 90%;
+            max-width: 600px;
             z-index: 1;
             transition: transform 0.3s ease;
             cursor: pointer;
         }
         #matrix-image img {
-            max-width: 40%; /* Both images now have the same size (40% each) */
+            width: 45%;
+            max-width: 200px;
             height: auto;
-            transform-origin: 50% 50%; /* Explicitly set rotation point to the exact center (50% 50%) of the image */
+            transform-origin: center;
         }
 
-        /* Define custom variables for horizontal offset (default to 0px) */
+        /* Desktop default offsets */
         #matrix-image img:first-child { /* sabo-cat-transparency.png */
-            margin-left: var(--transparency-horizontal-offset, 100px); /* Default 0px, change this value */
+            margin-top: var(--transparency-vertical-offset, 0px);
+            margin-left: var(--transparency-horizontal-offset, 50px);
         }
         #matrix-image img:last-child { /* sabo-cat-staff.png */
-            margin-left: var(--staff-horizontal-offset, -302px); /* Default 0px, change this value */
+            margin-top: var(--staff-vertical-offset, 0px);
+            margin-left: var(--staff-horizontal-offset, -183px);
         }
 
-        /* Bottom Right Images in Matrix Container */
         .bottom-right-images {
             position: absolute;
-            bottom: 10px;
-            right: 10px;
+            bottom: 1rem;
+            right: 1rem;
             display: flex;
-            gap: 10px;
+            gap: 0.5rem;
             z-index: 2;
-            background: transparent;
         }
         .bottom-right-images img {
-            height: 75px;
+            height: clamp(40px, 10vw, 75px);
             width: auto;
-            background: transparent;
         }
 
-        /* Logo Styling with Image and Text */
         #logo {
             position: absolute;
-            top: -40px;
-            left: 5px;
+            top: 0.5rem;
+            left: 0.5rem;
             z-index: 2;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 0.3rem;
         }
         #logo img {
-            height: 10rem;
+            height: clamp(4rem, 20vw, 10rem);
             width: auto;
-            filter: none;
             transition: transform 0.3s ease;
             cursor: pointer;
         }
         #logo h1 {
             font-family: 'main', sans-serif;
             color: #00ff00;
-            font-size: 2rem;
+            font-size: clamp(1rem, 4vw, 2rem);
             margin: 0;
-            margin-left: -45px;
+            margin-left: -1rem;
             text-transform: uppercase;
-            letter-spacing: 2.5px;
+            letter-spacing: 0.1rem;
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
             white-space: nowrap;
         }
 
-        /* Bottom Left Buttons Container (Centered Horizontally) */
         .bottom-left-buttons {
             position: absolute;
-            bottom: 10px;
-            left: 50%; /* Center horizontally in #matrix-container */
-            transform: translateX(-50%); /* Shift left by half its width to center it */
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 2;
             display: flex;
-            gap: 10px;
-            justify-content: center; /* Center all buttons within the container */
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            width: 90%;
+            max-width: 800px;
         }
 
-        /* CA, BUY, MANIFESTO, Audio Toggle, and Counter Buttons */
-        .ca-button, .buy-button, .manifesto-button, .audio-toggle-button, .counter-button {
+        .ca-button, .buy-button, .manifesto-button, 
+        .audio-toggle-button, .counter-button {
             font-family: 'main', sans-serif;
-            font-size: 1.2rem;
+            font-size: clamp(0.8rem, 2.5vw, 1.2rem);
             color: #00ff00;
             background: transparent;
             border: 1px solid #00ff00;
-            padding: 5px 10px;
+            padding: 0.3rem 0.6rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 0.1rem;
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        .ca-button:hover, .buy-button:hover, .manifesto-button:hover, .audio-toggle-button:hover, .counter-button:hover {
+        .ca-button:hover, .buy-button:hover, 
+        .manifesto-button:hover, .audio-toggle-button:hover, 
+        .counter-button:hover {
             background: rgba(0, 255, 0, 0.1);
             text-shadow: 0 0 10px rgba(0, 255, 0, 1);
         }
 
-        /* Copied Message */
         .copied-message {
             position: absolute;
-            bottom: 40px;
-            left: 10px;
+            bottom: 2.5rem;
+            left: 0.5rem;
             z-index: 2;
             font-family: 'main', sans-serif;
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2vw, 1rem);
             color: #00ff00;
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
-        /* Hide default audio controls */
         #background-audio {
             display: none;
         }
 
-        /* Scrolling Text Below Matrix Header with Borders */
         .marquee {
             width: 100%;
-            height: 50px;
+            height: 3rem;
             overflow: hidden;
             position: relative;
             background: black;
             border-top: 1px solid #00ff00;
             border-bottom: 1px solid #00ff00;
-            line-height: 48px;
+            line-height: 3rem;
         }
         .marquee-content {
             display: flex;
@@ -176,12 +176,12 @@
         }
         .marquee-content span {
             font-family: 'main', sans-serif;
-            font-size: 1.5rem;
+            font-size: clamp(0.9rem, 2.5vw, 1.5rem);
             color: #00ff00;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 0.1rem;
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
-            padding-right: 40px;
+            padding-right: 1rem;
             white-space: nowrap;
             flex: 1;
         }
@@ -194,21 +194,21 @@
         }
 
         .chart-container {
-            width: 80%;
-            height: 500px;
-            margin: 0 auto 30px auto;
+            width: 90%;
+            height: clamp(300px, 50vh, 500px);
+            margin: 0 auto 1rem auto;
             background-color: #f4f4f4;
             position: relative;
         }
         h2 {
             color: white;
             text-align: center;
-            margin: 20px 0;
+            margin: 1rem 0;
             font-family: 'proxima-nova', sans-serif;
             font-weight: 300;
+            font-size: clamp(1rem, 3vw, 1.5rem);
         }
 
-        /* Twitter Banner Above Solana Marquee */
         .twitter-banner {
             width: 100%;
             height: auto;
@@ -216,10 +216,9 @@
             margin: 0;
         }
 
-        /* Scrolling "Powered by Solana" Below Charts */
         .solana-marquee {
             width: 100%;
-            height: 170px;
+            height: clamp(100px, 20vh, 170px);
             overflow: hidden;
             position: relative;
             background: black;
@@ -229,7 +228,7 @@
             justify-content: center;
             align-items: center;
             margin-top: 0;
-            padding: 20px 0;
+            padding: 1rem 0;
         }
         .solana-marquee-content {
             display: flex;
@@ -239,21 +238,18 @@
         }
         .solana-marquee-content span {
             font-family: 'main', sans-serif;
-            font-size: 3.0rem;
+            font-size: clamp(1.5rem, 4vw, 3rem);
             color: #00ff00;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 0.1rem;
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
-            padding-right: 15px;
-            line-height: 50px;
+            padding-right: 0.5rem;
         }
         .solana-marquee-content img {
-            height: 3.0rem;
+            height: clamp(1.5rem, 4vw, 3rem);
             width: auto;
             vertical-align: middle;
-            margin-right: 15px;
-            position: relative;
-            top: 0px;
+            margin-right: 0.5rem;
         }
         @keyframes solana-scroll {
             0% { transform: translateX(0); }
@@ -263,25 +259,25 @@
             animation-play-state: paused;
         }
 
-        /* Image Gallery Below Solana Marquee */
         .image-gallery {
             width: 100%;
             background: black;
-            padding: 20px 0;
+            padding: 1rem 0;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         .gallery-row {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            width: 90%;
-            margin-bottom: 20px;
+            width: 95%;
+            margin-bottom: 1rem;
         }
         .gallery-image {
             position: relative;
-            width: 30%;
-            margin: 0 1.5%;
+            width: clamp(25%, 30vw, 30%);
+            margin: 0.5rem;
         }
         .gallery-image img {
             width: 100%;
@@ -290,7 +286,6 @@
             cursor: pointer;
         }
 
-        /* Popup Styles */
         .popup {
             display: none;
             position: fixed;
@@ -298,42 +293,89 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.9);
-            padding: 20px;
+            padding: 1rem;
             border: 2px solid #00ff00;
             z-index: 1000;
+            max-width: 90vw;
+            max-height: 90vh;
         }
         .popup img {
-            max-width: 80vw;
+            max-width: 100%;
             max-height: 80vh;
             display: block;
         }
         .popup-close {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 0.5rem;
+            right: 0.5rem;
             color: #00ff00;
-            font-size: 24px;
+            font-size: clamp(1rem, 3vw, 1.5rem);
             font-weight: bold;
             cursor: pointer;
         }
 
-        /* Manifesto Section */
         #manifesto {
             width: 100%;
-            padding: 40px 20px;
+            padding: 2rem 1rem;
             background: black;
             color: #00ff00;
             text-align: center;
             font-family: 'main', sans-serif;
-            font-size: 2rem;
+            font-size: clamp(1.2rem, 3vw, 2rem);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 0.1rem;
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            #matrix-image {
+                flex-direction: column;
+                gap: 0;
+            }
+            #matrix-image img {
+                width: 60%;
+                max-width: 150px;
+            }
+            /* Mobile-specific offsets */
+            #matrix-image img:first-child { /* sabo-cat-transparency.png */
+                margin-top: var(--transparency-vertical-offset, 20px); /* Adjust vertical for mobile */
+                margin-left: var(--transparency-horizontal-offset, 0px); /* Adjust horizontal for mobile */
+            }
+            #matrix-image img:last-child { /* sabo-cat-staff.png */
+                margin-top: var(--staff-vertical-offset, -118px); /* Adjust vertical for mobile */
+                margin-left: var(--staff-horizontal-offset, 28px); /* Adjust horizontal for mobile */
+            }
+            .bottom-left-buttons {
+                flex-direction: row;
+                flex-wrap: wrap;
+                padding: 0.5rem;
+            }
+            #logo h1 {
+                margin-left: 0;
+            }
+            .gallery-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            .gallery-image {
+                width: 80%;
+                margin: 0.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #matrix-image img {
+                width: 70%;
+                max-width: 120px;
+            }
+            .bottom-right-images img {
+                height: clamp(30px, 8vw, 50px);
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Audio Element -->
     <audio id="background-audio" autoplay loop>
         <source src="background-song.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -345,17 +387,14 @@
             <img src="sabo-cat-transparency.png" alt="sabo cat transparency">
             <img src="sabo-cat-staff.png" alt="sabo cat staff">
         </div>
-        <!-- Logo in Top Left with Image and Text -->
         <div id="logo">
             <img src="logo.png" alt="Sabo Cat Logo" id="logo-image">
             <h1>SABO CAT THE MARKET WIZARD</h1>
         </div>
-        <!-- Bottom Right Images -->
         <div class="bottom-right-images">
             <img src="images/nvidia-inception.png" alt="NVIDIA Inception">
-            <img src="images/solana-logo.png" alt="Solana Logo"> <!-- Fixed path -->
+            <img src="images/solana-logo.png" alt="Solana Logo">
         </div>
-        <!-- Bottom Left Buttons (including Counter Button, now centered) -->
         <div class="bottom-left-buttons">
             <button class="ca-button">CA</button>
             <button class="buy-button">BUY</button>
@@ -365,7 +404,6 @@
         </div>
         <div class="copied-message" id="copied-message">Copied</div>
     </div>
-    <!-- Scrolling Text Below Matrix Header with Borders -->
     <div class="marquee">
         <div class="marquee-content">
             <span>$SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI</span>
@@ -376,9 +414,7 @@
     <div id="chart1" class="chart-container"></div>
     <h2>Real-Time Crypto Major Assets Trending Data (30-second interval timestamp)</h2>
     <div id="chart2" class="chart-container"></div>
-    <!-- Twitter Banner Above Solana Marquee -->
     <img src="images/sabo-cat-twitter-banner.png" alt="Sabo Cat Twitter Banner" class="twitter-banner">
-    <!-- Scrolling "Powered by Solana" Below Charts -->
     <div class="solana-marquee">
         <div class="solana-marquee-content">
             <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
@@ -403,7 +439,6 @@
             <span>POWERED BY SOLANA</span><img src="images/solana-logo.png" alt="Solana Logo">
         </div>
     </div>
-    <!-- Image Gallery Below Solana Marquee -->
     <div class="image-gallery">
         <div class="gallery-row">
             <div class="gallery-image">
@@ -452,14 +487,13 @@
             </div>
         </div>
     </div>
-    <!-- Manifesto Section -->
     <section id="manifesto">Manifesto</section>
 
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         let w = canvas.width = window.innerWidth;
-        let h = canvas.height = 400;
+        let h = canvas.height = document.getElementById('matrix-container').offsetHeight;
         const str = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポ";
         const matrix = str.split("");
         let font = 12;
@@ -481,7 +515,7 @@
         setInterval(rain, 30);
         window.addEventListener("resize", () => {
             w = canvas.width = window.innerWidth;
-            h = 400;
+            h = document.getElementById('matrix-container').offsetHeight;
             col = w / font;
             arr = [];
             for(let i = 0; i < col; i++) arr[i] = 1;
@@ -493,7 +527,7 @@
 
             const chart1 = LightweightCharts.createChart(chart1Container, {
                 width: chart1Container.offsetWidth,
-                height: 500,
+                height: chart1Container.offsetHeight,
                 timeScale: { 
                     timeVisible: true, 
                     secondsVisible: true,
@@ -558,7 +592,7 @@
 
             const chart2 = LightweightCharts.createChart(chart2Container, {
                 width: chart2Container.offsetWidth,
-                height: 500,
+                height: chart2Container.offsetHeight,
                 timeScale: { 
                     timeVisible: true, 
                     secondsVisible: true,
@@ -621,17 +655,15 @@
             setInterval(fetchCryptoData2, 30000);
             fetchCryptoData2();
 
-            // Resize handler for charts
             function resizeCharts() {
-                chart1.resize(chart1Container.offsetWidth, 500);
-                chart2.resize(chart2Container.offsetWidth, 500);
+                chart1.resize(chart1Container.offsetWidth, chart1Container.offsetHeight);
+                chart2.resize(chart2Container.offsetWidth, chart2Container.offsetHeight);
             }
             window.addEventListener('resize', resizeCharts);
 
-            // CA Button Functionality
             const caButton = document.querySelector('.ca-button');
             const copiedMessage = document.getElementById('copied-message');
-            const caString = "YOUR_LONG_STRING_HERE"; // Replace with your string later
+            const caString = "YOUR_LONG_STRING_HERE";
             caButton.addEventListener('click', () => {
                 navigator.clipboard.writeText(caString).then(() => {
                     copiedMessage.style.opacity = '1';
@@ -643,54 +675,45 @@
                 });
             });
 
-            // BUY Button Functionality
             const buyButton = document.querySelector('.buy-button');
-            const buyUrl = "https://example.com"; // Replace with your hyperlink later
+            const buyUrl = "https://example.com";
             buyButton.addEventListener('click', () => {
                 window.open(buyUrl, '_blank');
             });
 
-            // MANIFESTO Button Functionality
             const manifestoButton = document.querySelector('.manifesto-button');
             const manifestoSection = document.getElementById('manifesto');
             manifestoButton.addEventListener('click', () => {
                 manifestoSection.scrollIntoView({ behavior: 'smooth' });
             });
 
-            // Flip for logo.png (180° on first click, back to 0° on second)
             const logoImage = document.getElementById('logo-image');
             let isFlipped = false;
             logoImage.addEventListener('click', () => {
-                isFlipped = !isFlipped; // Toggle flip state
+                isFlipped = !isFlipped;
                 logoImage.style.transform = isFlipped ? 'rotate(180deg)' : 'rotate(0deg)';
             });
 
-            // Popup functionality for gallery images
             const galleryImages = document.querySelectorAll('.gallery-image');
             galleryImages.forEach(gallery => {
                 const img = gallery.querySelector('img');
                 const popup = gallery.querySelector('.popup');
                 const closeBtn = gallery.querySelector('.popup-close');
 
-                // Open popup when clicking the image
                 img.addEventListener('click', () => {
                     popup.style.display = 'block';
                 });
 
-                // Close popup when clicking the "X"
                 closeBtn.addEventListener('click', () => {
                     popup.style.display = 'none';
                 });
             });
 
-            // Audio toggle functionality
             const audio = document.getElementById('background-audio');
             const audioToggleButton = document.getElementById('audio-toggle');
 
-            // Ensure audio starts playing automatically
             audio.play().catch(error => {
                 console.log("Autoplay was prevented:", error);
-                // Fallback: Start playing on first user interaction if autoplay is blocked
                 document.body.addEventListener('click', function startAudio() {
                     audio.play();
                     document.body.removeEventListener('click', startAudio);
@@ -707,18 +730,17 @@
                 }
             });
 
-            // Rotation and Counter functionality for sabo-cat-staff.png
             const transparencyImg = document.querySelector('#matrix-image img:first-child');
             const staffImg = document.querySelector('#matrix-image img:last-child');
             let rotationCount = 0;
-            let clickCount = 0; // Initialize click counter
+            let clickCount = 0;
 
             function rotateStaff() {
-                clickCount++; // Increment click counter
-                rotationCount = (rotationCount + 1) % 8; // Cycles 0-7, resets to 0 after 8 clicks
-                const rotationAngle = rotationCount * 45; // 45° per click (8 clicks = 360°)
-                staffImg.style.transform = `rotate(${rotationAngle}deg)`; // Only rotate sabo-cat-staff.png around its center
-                document.getElementById('counter-button').textContent = `Counter: ${clickCount}`; // Update counter button display
+                clickCount++;
+                rotationCount = (rotationCount + 1) % 8;
+                const rotationAngle = rotationCount * 45;
+                staffImg.style.transform = `rotate(${rotationAngle}deg)`;
+                document.getElementById('counter-button').textContent = `Counter: ${clickCount}`;
             }
 
             transparencyImg.addEventListener('click', rotateStaff);
