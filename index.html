@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Real-Time Crypto Market Trend Data (30-second interval timestamp)</title>
-        <meta property="og:title" content="SABO CAT THE MARKET WIZARD />
+        <meta property="og:title" content="SABO CAT THE MARKET WIZARD" />
         <link rel="icon" type="image/png" href="sabo-cat-favicon.png">
         <script src="https://unpkg.com/lightweight-charts@3.4.0/dist/lightweight-charts.standalone.production.js"></script>
         <link rel="stylesheet" href="https://use.typekit.net/af/153422/00000000000000007759c419/30/l?subset_id=2&fvd=n3&v=3" type="text/css">
@@ -155,6 +155,26 @@
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
             opacity: 0;
             transition: opacity 0.3s ease;
+        }
+
+        /* New social media links styles */
+        .social-links {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            z-index: 2;
+            display: flex;
+            gap: 0.5rem;
+        }
+        .social-links a {
+            transition: transform 0.3s ease;
+        }
+        .social-links a:hover {
+            transform: scale(1.1);
+        }
+        .social-links img {
+            height: clamp(30px, 8vw, 50px);
+            width: auto;
         }
 
         #background-audio {
@@ -323,10 +343,46 @@
             color: #00ff00;
             text-align: center;
             font-family: 'main', sans-serif;
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            text-transform: uppercase;
-            letter-spacing: 0.1rem;
+        }
+
+        #manifesto h2 {
+            color: #00ff00;
+            font-family: 'main', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 1.5rem;
             text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+        }
+
+        .manifesto-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .manifesto-content h3 {
+            color: #00ff00;
+            font-family: 'main', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin: 1.5rem 0 0.5rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+        }
+
+        .manifesto-content p {
+            color: #00ff00;
+            font-family: 'main', sans-serif;
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 3px rgba(0, 255, 0, 0.5);
+        }
+
+        .manifesto-content .highlight {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            font-weight: bold;
+            margin-top: 2rem;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
         }
 
         /* Mobile-specific adjustments */
@@ -373,50 +429,51 @@
             .bottom-right-images img {
                 height: clamp(30px, 8vw, 50px);
             }
+            .social-links img {
+                height: clamp(25px, 6vw, 40px);
+            }
         }
 
         /* Landscape mode adjustments for mobile */
         @media (orientation: landscape) and (max-height: 500px) {
             #matrix-container {
-                height: 40vh; /* Reduce height slightly to fit landscape */
-                max-height: 300px; /* Cap height to avoid overflow */
+                height: 40vh;
+                max-height: 300px;
             }
 
             #matrix-image {
-                flex-direction: row; /* Switch to horizontal layout */
-                gap: 5px; /* Reduce gap for tighter fit */
-                width: 80%; /* Narrow width to fit more comfortably */
-                max-width: 400px; /* Limit max width in landscape */
+                flex-direction: row;
+                gap: 5px;
+                width: 80%;
+                max-width: 400px;
             }
 
             #matrix-image img {
-                width: 40%; /* Reduce image size to fit side by side */
-                max-width: 120px; /* Cap width for smaller screens */
+                width: 40%;
+                max-width: 120px;
             }
 
-            /* Reset margins for horizontal layout */
             #matrix-image img:first-child {
-                margin-top: 0; /* Remove vertical offset */
-                margin-left: 0; /* Remove horizontal offset */
+                margin-top: 0;
+                margin-left: 0;
             }
 
             #matrix-image img:last-child {
-                margin-top: 0; /* Remove vertical offset */
-                margin-left: 0; /* Remove horizontal offset */
+                margin-top: 0;
+                margin-left: 0;
             }
 
-            /* Ensure logo and buttons don’t overlap */
             #logo {
                 top: 0.3rem;
                 left: 0.3rem;
             }
 
             #logo img {
-                height: clamp(2rem, 15vw, 4rem); /* Smaller logo in landscape */
+                height: clamp(2rem, 15vw, 4rem);
             }
 
             #logo h1 {
-                font-size: clamp(0.8rem, 3vw, 1.2rem); /* Smaller text */
+                font-size: clamp(0.8rem, 3vw, 1.2rem);
             }
 
             .bottom-left-buttons {
@@ -427,12 +484,16 @@
 
             .ca-button, .buy-button, .manifesto-button, 
             .audio-toggle-button, .counter-button {
-                font-size: clamp(0.6rem, 2vw, 1rem); /* Smaller buttons */
+                font-size: clamp(0.6rem, 2vw, 1rem);
                 padding: 0.2rem 0.4rem;
             }
 
             .bottom-right-images img {
-                height: clamp(20px, 8vw, 40px); /* Smaller bottom-right images */
+                height: clamp(20px, 8vw, 40px);
+            }
+
+            .social-links img {
+                height: clamp(20px, 6vw, 30px);
             }
         }
     </style>
@@ -462,6 +523,14 @@
             <button class="manifesto-button">MANIFESTO</button>
             <button class="audio-toggle-button" id="audio-toggle">PAUSE</button>
             <button class="counter-button" id="counter-button">Counter: 0</button>
+        </div>
+        <div class="social-links">
+            <a href="https://telegram.org" target="_blank">
+                <img src="images/telegramlogo.png" alt="Telegram">
+            </a>
+            <a href="https://x.com" target="_blank">
+                <img src="images/xlogo.png" alt="X">
+            </a>
         </div>
         <div class="copied-message" id="copied-message">Copied</div>
     </div>
@@ -548,7 +617,24 @@
             </div>
         </div>
     </div>
-    <section id="manifesto">Manifesto</section>
+    <section id="manifesto">
+        <h2>MANIFESTO</h2>
+        <div class="manifesto-content">
+            <h3>Unleash the Market Wizard</h3>
+            <p>SABO CAT is more than just a meme coin—it's an AI-powered market wizard that helps traders predict crypto trends and sentiment. Think of it as your guide to navigating the highs and lows of the market.</p>
+            
+            <h3>Tools for Traders</h3>
+            <p>We provide powerful tools to track market sentiment and trends, giving you an edge in the fast-paced world of meme coins.</p>
+            
+            <h3>Built by Innovators</h3>
+            <p>Created by NVIDIA Inception awardees, SABO CAT is backed by engineers dedicated to building cutting-edge tools for AI and meme coin traders.</p>
+            
+            <h3>Join the Movement</h3>
+            <p>SABO CAT is more than a token—it's a community of traders ready to ride the waves of the crypto market together.</p>
+            
+            <p class="highlight">Embrace the Future. Embrace SABO CAT.</p>
+        </div>
+    </section>
 
     <script>
         const canvas = document.getElementById('canvas');
