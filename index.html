@@ -123,7 +123,7 @@
         }
 
         .ca-button, .buy-button, .manifesto-button, 
-        .audio-toggle-button, .counter-button, #lock-orientation {
+        .audio-toggle-button, .counter-button {
             font-family: 'main', sans-serif;
             font-size: clamp(0.8rem, 2.5vw, 1.2rem);
             color: #00ff00;
@@ -138,7 +138,7 @@
         }
         .ca-button:hover, .buy-button:hover, 
         .manifesto-button:hover, .audio-toggle-button:hover, 
-        .counter-button:hover, #lock-orientation:hover {
+        .counter-button:hover {
             background: rgba(0, 255, 0, 0.1);
             text-shadow: 0 0 10px rgba(0, 255, 0, 1);
         }
@@ -400,7 +400,6 @@
             <button class="manifesto-button">MANIFESTO</button>
             <button class="audio-toggle-button" id="audio-toggle">PAUSE</button>
             <button class="counter-button" id="counter-button">Counter: 0</button>
-            <button id="lock-orientation">Lock to Portrait</button>
         </div>
         <div class="copied-message" id="copied-message">Copied</div>
     </div>
@@ -490,24 +489,6 @@
     <section id="manifesto">Manifesto</section>
 
     <script>
-        // Function to lock orientation to portrait with fullscreen
-        function lockOrientation() {
-            if (document.documentElement.requestFullscreen && screen.orientation && screen.orientation.lock) {
-                document.documentElement.requestFullscreen()
-                    .then(() => {
-                        screen.orientation.lock('portrait')
-                            .then(() => {
-                                console.log('Orientation locked to portrait');
-                                document.getElementById('lock-orientation').style.display = 'none'; // Hide button after locking
-                            })
-                            .catch(err => console.error('Failed to lock orientation:', err));
-                    })
-                    .catch(err => console.error('Failed to enter fullscreen:', err));
-            } else {
-                console.warn('Fullscreen or Screen Orientation API not supported in this browser');
-            }
-        }
-
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         let w = canvas.width = window.innerWidth;
@@ -540,6 +521,19 @@
         });
 
         window.addEventListener('load', function () {
+            // Lock orientation to portrait on page load
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('portrait')
+                    .then(() => {
+                        console.log('Orientation locked to portrait');
+                    })
+                    .catch((err) => {
+                        console.error('Failed to lock orientation:', err);
+                    });
+            } else {
+                console.warn('Screen Orientation API not supported in this browser');
+            }
+
             const chart1Container = document.getElementById('chart1');
             const chart2Container = document.getElementById('chart2');
 
@@ -763,9 +757,6 @@
 
             transparencyImg.addEventListener('click', rotateStaff);
             staffImg.addEventListener('click', rotateStaff);
-
-            // Add event listener for the lock orientation button
-            document.getElementById('lock-orientation').addEventListener('click', lockOrientation);
         });
     </script>
 </body>
