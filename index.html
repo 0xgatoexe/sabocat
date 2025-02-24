@@ -39,11 +39,28 @@
             top: 60%;
             left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centers the flex items perfectly */
+            gap: 20px; /* Space between the images */
+            max-width: 100%; /* Allow full width to ensure proper centering */
             height: auto;
             z-index: 1;
             transition: transform 0.3s ease;
             cursor: pointer;
+        }
+        #matrix-image img {
+            max-width: 40%; /* Both images now have the same size (40% each) */
+            height: auto;
+            transform-origin: 50% 50%; /* Explicitly set rotation point to the exact center (50% 50%) of the image */
+        }
+
+        /* Define custom variables for horizontal offset (default to 0px) */
+        #matrix-image img:first-child { /* sabo-cat-transparency.png */
+            margin-left: var(--transparency-horizontal-offset, 100px); /* Default 0px, change this value */
+        }
+        #matrix-image img:last-child { /* sabo-cat-staff.png */
+            margin-left: var(--staff-horizontal-offset, -302px); /* Default 0px, change this value */
         }
 
         /* Bottom Right Images in Matrix Container */
@@ -101,8 +118,8 @@
             gap: 10px;
         }
 
-        /* CA, BUY, MANIFESTO, and Audio Toggle Buttons */
-        .ca-button, .buy-button, .manifesto-button, .audio-toggle-button {
+        /* CA, BUY, MANIFESTO, Audio Toggle, and Counter Buttons */
+        .ca-button, .buy-button, .manifesto-button, .audio-toggle-button, .counter-button {
             font-family: 'main', sans-serif;
             font-size: 1.2rem;
             color: #00ff00;
@@ -115,9 +132,14 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        .ca-button:hover, .buy-button:hover, .manifesto-button:hover, .audio-toggle-button:hover {
+        .ca-button:hover, .buy-button:hover, .manifesto-button:hover, .audio-toggle-button:hover, .counter-button:hover {
             background: rgba(0, 255, 0, 0.1);
             text-shadow: 0 0 10px rgba(0, 255, 0, 1);
+        }
+
+        /* Counter Button Specific Styling (Shifted 50px to the right) */
+        .counter-button {
+            margin-left: 1244px; /* Shifts only the Counter button 50px to the right within the flex container */
         }
 
         /* Copied Message */
@@ -322,7 +344,10 @@
 
     <div id="matrix-container">
         <canvas id="canvas"></canvas>
-        <img src="sabo-cat-transparency.png" alt="sabo cat transparency" id="matrix-image">
+        <div id="matrix-image">
+            <img src="sabo-cat-transparency.png" alt="sabo cat transparency">
+            <img src="sabo-cat-staff.png" alt="sabo cat staff">
+        </div>
         <!-- Logo in Top Left with Image and Text -->
         <div id="logo">
             <img src="logo.png" alt="Sabo Cat Logo" id="logo-image">
@@ -333,12 +358,13 @@
             <img src="images/nvidia-inception.png" alt="NVIDIA Inception">
             <img src="images/solana-logo.png" alt="Solana Logo"> <!-- Fixed path -->
         </div>
-        <!-- Bottom Left Buttons -->
+        <!-- Bottom Left Buttons (including Counter Button) -->
         <div class="bottom-left-buttons">
             <button class="ca-button">CA</button>
             <button class="buy-button">BUY</button>
             <button class="manifesto-button">MANIFESTO</button>
             <button class="audio-toggle-button" id="audio-toggle">PAUSE</button>
+            <button class="counter-button" id="counter-button">Counter: 0</button>
         </div>
         <div class="copied-message" id="copied-message">Copied</div>
     </div>
@@ -634,15 +660,6 @@
                 manifestoSection.scrollIntoView({ behavior: 'smooth' });
             });
 
-            // Rotation for sabo-cat-transparency.png (45° per click, 8 clicks to complete)
-            const matrixImage = document.getElementById('matrix-image');
-            let rotationCount = 0;
-            matrixImage.addEventListener('click', () => {
-                rotationCount = (rotationCount + 1) % 8; // Cycles 0-7, resets to 0 after 8 clicks
-                const rotationAngle = rotationCount * 45; // 45° per click
-                matrixImage.style.transform = `translate(-50%, -50%) rotate(${rotationAngle}deg)`;
-            });
-
             // Flip for logo.png (180° on first click, back to 0° on second)
             const logoImage = document.getElementById('logo-image');
             let isFlipped = false;
@@ -692,6 +709,23 @@
                     audioToggleButton.textContent = 'PLAY';
                 }
             });
+
+            // Rotation and Counter functionality for sabo-cat-staff.png
+            const transparencyImg = document.querySelector('#matrix-image img:first-child');
+            const staffImg = document.querySelector('#matrix-image img:last-child');
+            let rotationCount = 0;
+            let clickCount = 0; // Initialize click counter
+
+            function rotateStaff() {
+                clickCount++; // Increment click counter
+                rotationCount = (rotationCount + 1) % 8; // Cycles 0-7, resets to 0 after 8 clicks
+                const rotationAngle = rotationCount * 45; // 45° per click (8 clicks = 360°)
+                staffImg.style.transform = `rotate(${rotationAngle}deg)`; // Only rotate sabo-cat-staff.png around its center
+                document.getElementById('counter-button').textContent = `Counter: ${clickCount}`; // Update counter button display
+            }
+
+            transparencyImg.addEventListener('click', rotateStaff);
+            staffImg.addEventListener('click', rotateStaff);
         });
     </script>
 </body>
