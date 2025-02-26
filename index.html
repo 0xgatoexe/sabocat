@@ -234,19 +234,19 @@
 
         .charts-wrapper {
             width: 100%;
-            height: 90vh; /* Full viewport height */
+            height: 80vh; /* Reduced from 100vh to make it smaller vertically */
             background: black;
             display: flex;
             flex-direction: column;
             justify-content: space-between; /* Distribute space evenly */
             align-items: center;
-            padding: 1rem 0; /* Minimal padding */
+            padding: 0.5rem 0; /* Reduced padding */
             box-sizing: border-box;
         }
 
         .chart-container {
             width: 90%;
-            height: 40%; /* Each chart takes ~40% of the wrapper height */
+            height: 42%; /* Slightly increased to fit within reduced wrapper height */
             background-color: #f4f4f4;
             position: relative;
         }
@@ -254,10 +254,10 @@
         h2 {
             color: white;
             text-align: center;
-            margin: 0.5rem 0; /* Reduced margin for tighter fit */
+            margin: 0.3rem 0; /* Further reduced margin */
             font-family: 'proxima-nova', sans-serif;
             font-weight: 300;
-            font-size: clamp(1rem, 2vw, 1.5rem); /* Slightly smaller for space */
+            font-size: clamp(0.9rem, 1.8vw, 1.3rem); /* Slightly smaller font */
         }
 
         .twitter-banner {
@@ -473,12 +473,15 @@
                 width: 80%;
                 margin: 0.5rem 0;
             }
+            .charts-wrapper {
+                height: 70vh; /* Reduced further for mobile */
+            }
             .chart-container {
-                height: 35%; /* Slightly smaller on mobile */
+                height: 40%; /* Adjusted for smaller wrapper */
             }
             h2 {
-                font-size: clamp(0.8rem, 1.8vw, 1.2rem);
-                margin: 0.3rem 0;
+                font-size: clamp(0.7rem, 1.6vw, 1rem);
+                margin: 0.2rem 0;
             }
         }
 
@@ -571,14 +574,14 @@
             }
 
             .charts-wrapper {
-                height: 90vh; /* Slightly less in landscape to avoid overflow */
+                height: 75vh; /* Adjusted for landscape */
             }
             .chart-container {
-                height: 38%;
+                height: 40%;
             }
             h2 {
-                font-size: clamp(0.7rem, 1.5vw, 1rem);
-                margin: 0.2rem 0;
+                font-size: clamp(0.6rem, 1.4vw, 0.9rem);
+                margin: 0.1rem 0;
             }
         }
     </style>
@@ -631,6 +634,12 @@
         <div id="chart1" class="chart-container"></div>
         <h2>Real-Time Crypto Major Assets Trending Data (30-second interval timestamp)</h2>
         <div id="chart2" class="chart-container"></div>
+        <div class="marquee">
+            <div class="marquee-content">
+                <span>$SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI</span>
+                <span>$SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI</span>
+            </div>
+        </div>
     </div>
     <img src="images/sabo-cat-twitter-banner.png" alt="Sabo Cat Twitter Banner" class="twitter-banner">
     <div class="solana-marquee">
