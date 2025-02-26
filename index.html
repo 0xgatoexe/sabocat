@@ -232,20 +232,32 @@
             animation-play-state: paused;
         }
 
+        .charts-wrapper {
+            width: 100%;
+            height: 100vh; /* Full viewport height */
+            background: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Distribute space evenly */
+            align-items: center;
+            padding: 1rem 0; /* Minimal padding */
+            box-sizing: border-box;
+        }
+
         .chart-container {
             width: 90%;
-            height: clamp(300px, 50vh, 500px);
-            margin: 0 auto 1rem auto;
+            height: 40%; /* Each chart takes ~40% of the wrapper height */
             background-color: #f4f4f4;
             position: relative;
         }
+
         h2 {
             color: white;
             text-align: center;
-            margin: 1rem 0;
+            margin: 0.5rem 0; /* Reduced margin for tighter fit */
             font-family: 'proxima-nova', sans-serif;
             font-weight: 300;
-            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-size: clamp(1rem, 2vw, 1.5rem); /* Slightly smaller for space */
         }
 
         .twitter-banner {
@@ -461,6 +473,13 @@
                 width: 80%;
                 margin: 0.5rem 0;
             }
+            .chart-container {
+                height: 35%; /* Slightly smaller on mobile */
+            }
+            h2 {
+                font-size: clamp(0.8rem, 1.8vw, 1.2rem);
+                margin: 0.3rem 0;
+            }
         }
 
         @media (max-width: 480px) {
@@ -550,6 +569,17 @@
             .bottom-right-container img#mail-logo {
                 height: clamp(25px, 6vw, 40px);
             }
+
+            .charts-wrapper {
+                height: 90vh; /* Slightly less in landscape to avoid overflow */
+            }
+            .chart-container {
+                height: 38%;
+            }
+            h2 {
+                font-size: clamp(0.7rem, 1.5vw, 1rem);
+                margin: 0.2rem 0;
+            }
         }
     </style>
 </head>
@@ -596,10 +626,12 @@
             <span>$SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI • MARKET WIZARD • $SABO CAT AI</span>
         </div>
     </div>
-    <h2>Real-Time Solana AI Market Trend Data (30-second interval timestamp)</h2>
-    <div id="chart1" class="chart-container"></div>
-    <h2>Real-Time Crypto Major Assets Trending Data (30-second interval timestamp)</h2>
-    <div id="chart2" class="chart-container"></div>
+    <div class="charts-wrapper">
+        <h2>Real-Time Solana AI Market Trend Data (30-second interval timestamp)</h2>
+        <div id="chart1" class="chart-container"></div>
+        <h2>Real-Time Crypto Major Assets Trending Data (30-second interval timestamp)</h2>
+        <div id="chart2" class="chart-container"></div>
+    </div>
     <img src="images/sabo-cat-twitter-banner.png" alt="Sabo Cat Twitter Banner" class="twitter-banner">
     <div class="solana-marquee">
         <div class="solana-marquee-content">
