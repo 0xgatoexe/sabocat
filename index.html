@@ -234,30 +234,32 @@
 
         .charts-wrapper {
             width: 100%;
-            height: 80vh; /* Reduced from 100vh to make it smaller vertically */
+            height: 80vh; /* Kept at 80vh */
             background: black;
             display: flex;
             flex-direction: column;
             justify-content: space-between; /* Distribute space evenly */
             align-items: center;
-            padding: 0.5rem 0; /* Reduced padding */
+            padding: 0.3rem 0; /* Reduced padding from 0.5rem to 0.3rem to fit larger charts */
             box-sizing: border-box;
         }
 
         .chart-container {
             width: 90%;
-            height: 42%; /* Slightly increased to fit within reduced wrapper height */
-            background-color: #f4f4f4;
+            height: 50%; /* Increased from 42% to 50% (approximately 20% increase) */
+            background-color: #1a1a1a; /* Match chart background */
             position: relative;
+            border: 1px solid #00ff00; /* Green border to tie into theme */
+            border-radius: 5px; /* Slight rounding for modern look */
         }
 
         h2 {
             color: white;
             text-align: center;
-            margin: 0.3rem 0; /* Further reduced margin */
+            margin: 0.2rem 0; /* Reduced from 0.3rem to 0.2rem to minimize gaps */
             font-family: 'proxima-nova', sans-serif;
             font-weight: 300;
-            font-size: clamp(0.9rem, 1.8vw, 1.3rem); /* Slightly smaller font */
+            font-size: clamp(0.9rem, 1.8vw, 1.3rem);
         }
 
         .twitter-banner {
@@ -477,7 +479,7 @@
                 height: 70vh; /* Reduced further for mobile */
             }
             .chart-container {
-                height: 40%; /* Adjusted for smaller wrapper */
+                height: 48%; /* Slightly less than 50% to fit within 70vh on mobile */
             }
             h2 {
                 font-size: clamp(0.7rem, 1.6vw, 1rem);
@@ -577,7 +579,7 @@
                 height: 75vh; /* Adjusted for landscape */
             }
             .chart-container {
-                height: 40%;
+                height: 48%; /* Slightly less than 50% for landscape */
             }
             h2 {
                 font-size: clamp(0.6rem, 1.4vw, 0.9rem);
@@ -790,12 +792,26 @@
             const chart1Container = document.getElementById('chart1');
             const chart2Container = document.getElementById('chart2');
 
+            // Chart 1 Initialization
             const chart1 = LightweightCharts.createChart(chart1Container, {
                 width: chart1Container.offsetWidth,
                 height: chart1Container.offsetHeight,
-                timeScale: { 
-                    timeVisible: true, 
+                layout: {
+                    backgroundColor: '#1a1a1a', // Darker background for contrast
+                    textColor: '#ffffff', // White text for readability
+                },
+                grid: {
+                    vertLines: {
+                        color: 'rgba(255, 255, 255, 0.1)', // Subtle white vertical lines
+                    },
+                    horzLines: {
+                        color: 'rgba(255, 255, 255, 0.1)', // Subtle white horizontal lines
+                    },
+                },
+                timeScale: {
+                    timeVisible: true,
                     secondsVisible: true,
+                    borderColor: '#00ff00', // Green border to match theme
                     tickMarkFormatter: (time) => {
                         const date = new Date(time * 1000);
                         return date.toLocaleString('en-US', {
@@ -805,20 +821,48 @@
                             minute: '2-digit',
                             second: '2-digit'
                         });
-                    }
+                    },
+                },
+                rightPriceScale: {
+                    borderColor: '#00ff00', // Green border for price scale
+                    scaleMargins: {
+                        top: 0.1,
+                        bottom: 0.1,
+                    },
+                },
+                handleScroll: {
+                    mouseWheel: true,
+                    pressedMouseMove: true,
+                },
+                handleScale: {
+                    axisPressedMouseMove: true,
+                    mouseWheel: true,
+                    pinch: true,
                 },
             });
+
             let fgSeries1 = [];
             let fgDataPoints1 = [
                 { time: Math.floor(Date.now() / 1000), value: 50 }
             ];
-            let prevPrices1 = {}; 
-            let fgScore1 = 50; 
+            let prevPrices1 = {};
+            let fgScore1 = 50;
             const coins1 = ["solana", "ai16z", "fartcoin", "zerebro", "goat", "griffain", "tao", "virtual", "act", "render", "arc"];
 
-            let initialSeries1 = chart1.addLineSeries({ color: "#00ff00" });
+            let initialSeries1 = chart1.addLineSeries({
+                color: '#00ff00', // Green for upward trend
+                lineWidth: 2, // Thicker line for visibility
+                priceFormat: { type: 'custom', minMove: '1', formatter: price => price.toFixed(0) },
+            });
             initialSeries1.setData(fgDataPoints1);
             fgSeries1.push({ series: initialSeries1, color: "#00ff00" });
+
+            // Set initial visible range to 4 hours
+            const initialTimeRange = 480 * 60; // 4 hours in seconds
+            chart1.timeScale().setVisibleRange({
+                from: Math.floor(Date.now() / 1000) - initialTimeRange,
+                to: Math.floor(Date.now() / 1000),
+            });
 
             async function fetchCryptoData1() {
                 const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coins1.join(",")}&vs_currencies=usd`;
@@ -843,7 +887,11 @@
                     fgDataPoints1.push({ time: estTimestamp, value: fgScore1 });
                     let newColor = fgScore1 > previousFgScore ? "#00ff00" : "#ff0000";
                     if (fgSeries1.length === 0 || fgSeries1[fgSeries1.length - 1].color !== newColor) {
-                        let newSeries = chart1.addLineSeries({ color: newColor });
+                        let newSeries = chart1.addLineSeries({
+                            color: newColor,
+                            lineWidth: 2,
+                            priceFormat: { type: 'custom', minMove: '1', formatter: price => price.toFixed(0) },
+                        });
                         fgSeries1.push({ series: newSeries, color: newColor });
                     }
                     fgSeries1[fgSeries1.length - 1].series.setData(fgDataPoints1);
@@ -855,12 +903,26 @@
             setInterval(fetchCryptoData1, 30000);
             fetchCryptoData1();
 
+            // Chart 2 Initialization
             const chart2 = LightweightCharts.createChart(chart2Container, {
                 width: chart2Container.offsetWidth,
                 height: chart2Container.offsetHeight,
-                timeScale: { 
-                    timeVisible: true, 
+                layout: {
+                    backgroundColor: '#1a1a1a', // Darker background
+                    textColor: '#ffffff', // White text
+                },
+                grid: {
+                    vertLines: {
+                        color: 'rgba(255, 255, 255, 0.1)', // Subtle white vertical lines
+                    },
+                    horzLines: {
+                        color: 'rgba(255, 255, 255, 0.1)', // Subtle white horizontal lines
+                    },
+                },
+                timeScale: {
+                    timeVisible: true,
                     secondsVisible: true,
+                    borderColor: '#00ff00', // Green border
                     tickMarkFormatter: (time) => {
                         const date = new Date(time * 1000);
                         return date.toLocaleString('en-US', {
@@ -870,20 +932,47 @@
                             minute: '2-digit',
                             second: '2-digit'
                         });
-                    }
+                    },
+                },
+                rightPriceScale: {
+                    borderColor: '#00ff00', // Green border
+                    scaleMargins: {
+                        top: 0.1,
+                        bottom: 0.1,
+                    },
+                },
+                handleScroll: {
+                    mouseWheel: true,
+                    pressedMouseMove: true,
+                },
+                handleScale: {
+                    axisPressedMouseMove: true,
+                    mouseWheel: true,
+                    pinch: true,
                 },
             });
+
             let fgSeries2 = [];
             let fgDataPoints2 = [
                 { time: Math.floor(Date.now() / 1000), value: 50 }
             ];
-            let prevPrices2 = {}; 
-            let fgScore2 = 50; 
+            let prevPrices2 = {};
+            let fgScore2 = 50;
             const coins2 = ["bitcoin", "ethereum", "ripple", "binancecoin", "solana", "dogecoin"];
 
-            let initialSeries2 = chart2.addLineSeries({ color: "#00ff00" });
+            let initialSeries2 = chart2.addLineSeries({
+                color: '#00ff00', // Green for upward trend
+                lineWidth: 2, // Thicker line
+                priceFormat: { type: 'custom', minMove: '1', formatter: price => price.toFixed(0) },
+            });
             initialSeries2.setData(fgDataPoints2);
             fgSeries2.push({ series: initialSeries2, color: "#00ff00" });
+
+            // Set initial visible range to 4 hours
+            chart2.timeScale().setVisibleRange({
+                from: Math.floor(Date.now() / 1000) - initialTimeRange,
+                to: Math.floor(Date.now() / 1000),
+            });
 
             async function fetchCryptoData2() {
                 const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coins2.join(",")}&vs_currencies=usd`;
@@ -908,7 +997,11 @@
                     fgDataPoints2.push({ time: estTimestamp, value: fgScore2 });
                     let newColor = fgScore2 > previousFgScore ? "#00ff00" : "#ff0000";
                     if (fgSeries2.length === 0 || fgSeries2[fgSeries2.length - 1].color !== newColor) {
-                        let newSeries = chart2.addLineSeries({ color: newColor });
+                        let newSeries = chart2.addLineSeries({
+                            color: newColor,
+                            lineWidth: 2,
+                            priceFormat: { type: 'custom', minMove: '1', formatter: price => price.toFixed(0) },
+                        });
                         fgSeries2.push({ series: newSeries, color: newColor });
                     }
                     fgSeries2[fgSeries2.length - 1].series.setData(fgDataPoints2);
