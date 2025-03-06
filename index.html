@@ -246,7 +246,7 @@
 
         .chart-container {
             width: 90%;
-            height: 50%; /* Increased from 42% to 50% (approximately 20% increase) */
+            height: 80%; /* Increased from 42% to 50% (approximately 20% increase) */
             background-color: #1a1a1a; /* Match chart background */
             position: relative;
             border: 1px solid #00ff00; /* Green border to tie into theme */
@@ -857,12 +857,8 @@
             initialSeries1.setData(fgDataPoints1);
             fgSeries1.push({ series: initialSeries1, color: "#00ff00" });
     
-            // Set initial visible range to 24 hours
-            const initialTimeRange = 24 * 60 * 60; // 24 hours in seconds
-            chart1.timeScale().setVisibleRange({
-                from: Math.floor(Date.now() / 1000) - initialTimeRange,
-                to: Math.floor(Date.now() / 1000),
-            });
+            // Initially fit all data
+            chart1.timeScale().fitContent();
     
             async function fetchCryptoData1() {
                 const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coins1.join(",")}&vs_currencies=usd`;
@@ -897,12 +893,8 @@
                     }
                     fgSeries1[fgSeries1.length - 1].series.setData(fgDataPoints1);
     
-                    // Zoom out to show 24 hours of data
-                    const twentyFourHoursAgo = Math.floor(now - (24 * 60 * 60));
-                    chart1.timeScale().setVisibleRange({
-                        from: twentyFourHoursAgo,
-                        to: Math.floor(now),
-                    });
+                    // Fit all data horizontally after each update
+                    chart1.timeScale().fitContent();
                 } catch (error) {
                     console.error('Error fetching data from CoinGecko:', error);
                 }
@@ -975,11 +967,8 @@
             initialSeries2.setData(fgDataPoints2);
             fgSeries2.push({ series: initialSeries2, color: "#00ff00" });
     
-            // Set initial visible range to 24 hours
-            chart2.timeScale().setVisibleRange({
-                from: Math.floor(Date.now() / 1000) - initialTimeRange,
-                to: Math.floor(Date.now() / 1000),
-            });
+            // Initially fit all data
+            chart2.timeScale().fitContent();
     
             async function fetchCryptoData2() {
                 const url = `https://api.coingecko.com/api/v3/simple/price?ids=${coins2.join(",")}&vs_currencies=usd`;
@@ -1014,12 +1003,8 @@
                     }
                     fgSeries2[fgSeries2.length - 1].series.setData(fgDataPoints2);
     
-                    // Zoom out to show 24 hours of data
-                    const twentyFourHoursAgo = Math.floor(now - (24 * 60 * 60));
-                    chart2.timeScale().setVisibleRange({
-                        from: twentyFourHoursAgo,
-                        to: Math.floor(now),
-                    });
+                    // Fit all data horizontally after each update
+                    chart2.timeScale().fitContent();
                 } catch (error) {
                     console.error('Error fetching data from CoinGecko:', error);
                 }
@@ -1049,7 +1034,7 @@
     
             const mailLogo = document.getElementById('mail-logo');
             const mailCopiedMessage = document.getElementById('mail-copied-message');
-            const mailString = "0xgatoexe@gmail.com"; // Replace with your email
+            const mailString = "0xgatoexe@gmail.com";
             mailLogo.addEventListener('click', () => {
                 navigator.clipboard.writeText(mailString).then(() => {
                     mailCopiedMessage.style.opacity = '1';
